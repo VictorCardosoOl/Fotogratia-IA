@@ -1,7 +1,7 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { ArrowRight, Star, Award, Camera, Clock } from 'lucide-react';
-import { motion } from 'framer-motion';
+import { motion, useScroll, useTransform } from 'framer-motion';
 import Layout from '../components/Layout';
 import Button from '../components/Button';
 import SectionTitle from '../components/SectionTitle';
@@ -35,19 +35,42 @@ const staggerContainer = {
   }
 };
 
+const ParallaxImage = ({ src, className, speed = 1 }: { src: string, className?: string, speed?: number }) => {
+  const ref = useRef(null);
+  const { scrollYProgress } = useScroll({
+    target: ref,
+    offset: ["start end", "end start"]
+  });
+  
+  const y = useTransform(scrollYProgress, [0, 1], [0, -50 * speed]);
+  
+  return (
+    <div ref={ref} className={`overflow-hidden ${className}`}>
+      <motion.img 
+        style={{ y }}
+        src={src}
+        alt="Parallax"
+        className="w-full h-[120%] object-cover -mt-[10%]"
+        loading="lazy"
+      />
+    </div>
+  );
+};
+
 const Home: React.FC = () => {
   const navigate = useNavigate();
   const featuredPhotos = PHOTOS.slice(0, 3);
+  const parallaxPhotos = PHOTOS.slice(3, 7); // Select a subset for the parallax section
 
   return (
     <Layout>
       {/* Hero Section */}
-      <section className="relative h-screen flex items-center justify-center overflow-hidden bg-background">
+      <section className="relative min-h-[100dvh] flex items-center justify-center overflow-hidden bg-background">
         <div className="absolute inset-0 z-0">
           <motion.div 
             initial={{ scale: 1.15, opacity: 0 }}
             animate={{ scale: 1, opacity: 1 }}
-            transition={{ duration: 3, ease: [0.22, 1, 0.36, 1] }} // Custom bezier for very smooth, slow easing
+            transition={{ duration: 3, ease: [0.22, 1, 0.36, 1] }} 
             className="w-full h-full"
           >
             <img 
@@ -60,35 +83,35 @@ const Home: React.FC = () => {
           <div className="absolute inset-0 bg-primary/30 mix-blend-multiply" /> 
         </div>
 
-        <div className="relative z-10 text-center px-6 max-w-5xl mx-auto text-white">
+        <div className="relative z-10 text-center px-4 max-w-5xl mx-auto text-white w-full">
           <motion.div
             initial="hidden"
             animate="visible"
             variants={staggerContainer}
           >
             <motion.div variants={fadeInUp}>
-                <span className="inline-block px-3 py-1 border border-white/20 rounded-full bg-white/5 backdrop-blur-md text-white/90 uppercase tracking-[0.2em] text-[10px] md:text-xs font-medium mb-8">
+                <span className="inline-block px-3 py-1 border border-white/20 rounded-full bg-white/5 backdrop-blur-md text-white/90 uppercase tracking-[0.2em] text-[10px] md:text-xs font-medium mb-6 md:mb-8">
                 Fine Art Photography
                 </span>
             </motion.div>
             
             <motion.h1 
               variants={fadeInUp}
-              className="text-5xl md:text-7xl lg:text-9xl font-serif font-medium mb-8 leading-[1] tracking-tight text-white drop-shadow-sm"
+              className="text-[clamp(3.5rem,10vw,8rem)] font-serif font-medium mb-6 md:mb-8 leading-[1] tracking-tight text-white drop-shadow-sm"
             >
               Simplicity in <br /> <span className="italic text-white/90">Detail</span>.
             </motion.h1>
             
             <motion.p 
               variants={fadeInUp}
-              className="text-lg md:text-xl text-white/80 mb-12 max-w-2xl mx-auto font-light leading-relaxed"
+              className="text-base md:text-xl text-white/80 mb-10 md:mb-12 max-w-lg md:max-w-2xl mx-auto font-light leading-relaxed"
             >
               Capturing life's most beautiful moments with a natural, timeless aesthetic.
             </motion.p>
             
             <motion.div 
               variants={fadeInUp}
-              className="flex flex-col sm:flex-row items-center justify-center gap-6"
+              className="flex flex-col sm:flex-row items-center justify-center gap-4 sm:gap-6 w-full max-w-md mx-auto sm:max-w-none"
             >
               <Button onClick={() => navigate('/portfolio')} className="w-full sm:w-auto bg-white text-primary hover:bg-surface hover:text-primary border-none shadow-xl shadow-black/10">
                 View Portfolio
@@ -103,25 +126,25 @@ const Home: React.FC = () => {
 
       {/* Trust Indicators */}
       <section className="bg-white py-12 border-b border-primary/5">
-        <div className="container mx-auto px-6">
+        <div className="container">
           <motion.div 
             initial={{ opacity: 0 }}
             whileInView={{ opacity: 1 }}
             viewport={{ once: true }}
             transition={{ duration: 1.5 }}
-            className="grid grid-cols-2 md:grid-cols-4 gap-8 items-center justify-items-center opacity-40 grayscale hover:grayscale-0 transition-all duration-1000 hover:opacity-100"
+            className="grid grid-cols-2 md:grid-cols-4 gap-8 md:gap-12 items-center justify-items-center opacity-40 grayscale hover:grayscale-0 transition-all duration-1000 hover:opacity-100"
           >
-             <span className="text-xl font-serif font-bold text-primary tracking-widest">VOGUE</span>
-             <span className="text-xl font-serif font-bold text-primary tracking-widest">BRIDES</span>
-             <span className="text-xl font-serif font-bold text-primary tracking-widest">GQ</span>
-             <span className="text-xl font-serif font-bold text-primary tracking-widest">ARCHITECTURAL</span>
+             <span className="text-lg md:text-xl font-serif font-bold text-primary tracking-widest">VOGUE</span>
+             <span className="text-lg md:text-xl font-serif font-bold text-primary tracking-widest">BRIDES</span>
+             <span className="text-lg md:text-xl font-serif font-bold text-primary tracking-widest">GQ</span>
+             <span className="text-lg md:text-xl font-serif font-bold text-primary tracking-widest">ARCHITECTURAL</span>
           </motion.div>
         </div>
       </section>
 
       {/* Value Proposition */}
-      <section className="py-32 bg-background">
-        <div className="container mx-auto px-6">
+      <section className="py-20 md:py-32 bg-background">
+        <div className="container">
           <SectionTitle subtitle="Why Choose Us" title="The Lumina Experience" />
           
           <motion.div 
@@ -129,7 +152,7 @@ const Home: React.FC = () => {
             whileInView="visible"
             viewport={{ once: true, margin: "-100px" }}
             variants={staggerContainer}
-            className="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-12"
+            className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-12"
           >
             {[
               { icon: Camera, title: "Natural Aesthetic", desc: "We focus on natural light and candid moments, avoiding heavy filters to let the true beauty of the scene shine." },
@@ -139,7 +162,7 @@ const Home: React.FC = () => {
               <motion.div 
                 key={idx} 
                 variants={fadeInUp}
-                className="text-center p-10 rounded-sm bg-surface hover:bg-white transition-colors duration-700 border border-transparent hover:border-primary/5 group"
+                className="text-center p-8 md:p-10 rounded-sm bg-surface hover:bg-white transition-colors duration-700 border border-transparent hover:border-primary/5 group"
               >
                 <div className="w-12 h-12 flex items-center justify-center mx-auto mb-8 text-primary/40 group-hover:text-primary transition-colors duration-500">
                   <feature.icon className="w-6 h-6" />
@@ -153,10 +176,10 @@ const Home: React.FC = () => {
       </section>
 
       {/* Featured Portfolio */}
-      <section className="py-32 bg-white overflow-hidden">
-        <div className="container mx-auto px-6">
-          <div className="flex justify-between items-end mb-20">
-            <SectionTitle subtitle="Portfolio" title="Selected Works" alignment="left" className="mb-0" />
+      <section className="py-20 md:py-32 bg-white overflow-hidden">
+        <div className="container">
+          <div className="flex flex-col md:flex-row justify-between items-center md:items-end mb-16 md:mb-20 gap-6">
+            <SectionTitle subtitle="Portfolio" title="Selected Works" alignment="left" className="mb-0 text-center md:text-left" />
             <Button variant="text" withArrow onClick={() => navigate('/portfolio')} className="hidden md:inline-flex mb-2">
               View Full Gallery
             </Button>
@@ -194,18 +217,44 @@ const Home: React.FC = () => {
               </motion.div>
             ))}
           </div>
+        </div>
+      </section>
+
+      {/* Parallax Photo Grid Section */}
+      <section className="py-20 md:py-32 bg-background overflow-hidden">
+        <div className="container">
+          <SectionTitle subtitle="Visual Narrative" title="Latest Captures" />
           
-          <div className="mt-16 text-center md:hidden">
-            <Button variant="outline" fullWidth onClick={() => navigate('/portfolio')}>View All Projects</Button>
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-8 h-[600px] md:h-[800px] items-center">
+             {parallaxPhotos.map((photo, index) => {
+               // Determine column height and offset based on index for variety
+               const isEven = index % 2 === 0;
+               const speed = isEven ? 1.2 : 0.8; 
+               const heightClass = isEven ? "h-[80%] md:h-[100%]" : "h-[60%] md:h-[80%]";
+               
+               return (
+                 <div key={photo.id} className={`${heightClass} w-full`}>
+                   <ParallaxImage 
+                     src={photo.url} 
+                     className="w-full h-full object-cover shadow-lg"
+                     speed={speed} 
+                   />
+                 </div>
+               );
+             })}
+          </div>
+          
+          <div className="mt-12 text-center">
+             <Button variant="outline" onClick={() => navigate('/portfolio')}>View All Projects</Button>
           </div>
         </div>
       </section>
 
       {/* Services Teaser */}
-      <section className="py-32 bg-surface relative">
-        <div className="container mx-auto px-6 relative z-10">
-          <div className="flex flex-col md:flex-row gap-20 items-center">
-            <div className="md:w-1/2">
+      <section className="py-20 md:py-32 bg-surface relative">
+        <div className="container relative z-10">
+          <div className="flex flex-col md:flex-row gap-12 md:gap-20 items-center">
+            <div className="md:w-1/2 order-2 md:order-1">
               <motion.div
                 initial="hidden"
                 whileInView="visible"
@@ -236,12 +285,13 @@ const Home: React.FC = () => {
                 </motion.div>
               </motion.div>
             </div>
+            
             <motion.div 
               initial={{ opacity: 0, scale: 0.95 }}
               whileInView={{ opacity: 1, scale: 1 }}
               viewport={{ once: true }}
               transition={{ duration: 1.5, ease: [0.16, 1, 0.3, 1] }}
-              className="md:w-1/2 w-full h-[700px] relative"
+              className="md:w-1/2 w-full aspect-[4/5] md:aspect-auto md:h-[700px] relative order-1 md:order-2"
             >
                <img 
                  src="https://picsum.photos/800/1000?random=10" 
@@ -254,8 +304,8 @@ const Home: React.FC = () => {
       </section>
 
       {/* Testimonials */}
-      <section className="py-32 bg-background">
-        <div className="container mx-auto px-6 max-w-4xl text-center">
+      <section className="py-20 md:py-32 bg-background">
+        <div className="container max-w-4xl text-center">
           <SectionTitle subtitle="Testimonials" title="Kind Words" />
           <div className="relative">
             <motion.div 
@@ -263,9 +313,9 @@ const Home: React.FC = () => {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={heavySpring}
-              className="bg-white p-12 md:p-20 shadow-[0_20px_40px_-15px_rgba(0,0,0,0.03)] border border-primary/5"
+              className="bg-white p-8 md:p-20 shadow-[0_20px_40px_-15px_rgba(0,0,0,0.03)] border border-primary/5"
             >
-              <p className="text-xl md:text-2xl font-serif text-primary leading-relaxed mb-10">
+              <p className="text-xl md:text-2xl font-serif text-primary leading-relaxed mb-8 md:mb-10">
                 "{TESTIMONIALS[0].text}"
               </p>
               <div className="flex items-center justify-center space-x-1 mb-8">
@@ -281,19 +331,19 @@ const Home: React.FC = () => {
       </section>
 
       {/* Final CTA */}
-      <section className="py-32 bg-white border-t border-primary/5">
-        <div className="container mx-auto px-6 text-center max-w-2xl">
+      <section className="py-20 md:py-32 bg-white border-t border-primary/5">
+        <div className="container text-center max-w-2xl">
           <motion.div
             initial={{ opacity: 0, y: 40 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={heavySpring}
           >
-            <h2 className="text-4xl md:text-5xl font-serif mb-8 text-primary">Ready to tell your story?</h2>
-            <p className="text-muted mb-12 text-lg font-light">
+            <h2 className="text-3xl md:text-5xl font-serif mb-6 md:mb-8 text-primary">Ready to tell your story?</h2>
+            <p className="text-muted mb-10 md:mb-12 text-base md:text-lg font-light">
               Dates book up fast. Secure your session today.
             </p>
-            <div className="flex flex-col sm:flex-row gap-6 justify-center">
+            <div className="flex flex-col sm:flex-row gap-4 md:gap-6 justify-center">
               <Button onClick={() => navigate('/contact')} className="">Start Conversation</Button>
               <Button variant="outline" onClick={() => navigate('/portfolio')}>View More Work</Button>
             </div>

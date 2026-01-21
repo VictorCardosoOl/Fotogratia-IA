@@ -3,7 +3,8 @@ import { useForm } from 'react-hook-form';
 import Layout from '../components/Layout';
 import Button from '../components/Button';
 import { CONTACT_INFO } from '../constants';
-import { Mail, Phone, MapPin } from 'lucide-react';
+import { Mail, Phone, MapPin, AlertCircle } from 'lucide-react';
+import { motion, AnimatePresence } from 'framer-motion';
 
 type FormData = {
   name: string;
@@ -15,7 +16,9 @@ type FormData = {
 };
 
 const Contact: React.FC = () => {
-  const { register, handleSubmit, formState: { errors, isSubmitting }, reset } = useForm<FormData>();
+  const { register, handleSubmit, formState: { errors, isSubmitting }, reset } = useForm<FormData>({
+    mode: 'onChange' // Real-time validation
+  });
 
   const onSubmit = async (data: FormData) => {
     await new Promise(resolve => setTimeout(resolve, 1000));
@@ -24,22 +27,29 @@ const Contact: React.FC = () => {
     reset();
   };
 
+  const getInputClass = (hasError: boolean) => 
+    `w-full px-0 py-3 bg-transparent border-b outline-none transition-all duration-300 placeholder-primary/30 text-primary ${
+      hasError 
+        ? 'border-red-500 focus:border-red-600' 
+        : 'border-primary/20 focus:border-primary'
+    }`;
+
   return (
     <Layout>
-      <div className="pt-40 pb-20 bg-background text-primary relative">
-        <div className="container mx-auto px-6 text-center relative z-10">
-          <h1 className="text-5xl md:text-7xl font-serif mb-6">Get in Touch</h1>
-          <p className="text-muted max-w-xl mx-auto font-light text-lg">
+      <div className="pt-32 md:pt-40 pb-16 md:pb-20 bg-background text-primary relative">
+        <div className="container text-center relative z-10">
+          <h1 className="text-fluid-h2 font-serif mb-6">Get in Touch</h1>
+          <p className="text-muted max-w-xl mx-auto font-light text-base md:text-lg">
             We are currently accepting bookings for the 2024-2025 season.
           </p>
         </div>
       </div>
 
-      <div className="container mx-auto px-6 py-16">
-        <div className="flex flex-col lg:flex-row gap-20 max-w-6xl mx-auto">
+      <div className="container py-12 md:py-16">
+        <div className="flex flex-col lg:flex-row gap-12 lg:gap-20 max-w-6xl mx-auto">
           
           {/* Contact Info */}
-          <div className="lg:w-1/3 space-y-10">
+          <div className="lg:w-1/3 space-y-10 order-2 lg:order-1">
             <div>
                 <h3 className="text-2xl font-serif mb-4 text-primary">Studio</h3>
                 <p className="text-muted leading-relaxed font-light text-sm">
@@ -70,27 +80,60 @@ const Contact: React.FC = () => {
           </div>
 
           {/* Form */}
-          <div className="lg:w-2/3 bg-surface p-10 md:p-14 border border-primary/5">
+          <div className="lg:w-2/3 bg-surface p-6 md:p-14 border border-primary/5 order-1 lg:order-2 rounded-sm">
             <form onSubmit={handleSubmit(onSubmit)} className="space-y-8">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                <div>
+                <div className="relative">
                   <label className="block text-xs font-bold uppercase tracking-widest text-primary mb-3">Full Name</label>
                   <input 
-                    {...register('name', { required: 'Name is required' })}
-                    className="w-full px-0 py-3 bg-transparent border-b border-primary/20 focus:border-primary outline-none transition-colors placeholder-primary/30 text-primary"
+                    {...register('name', { 
+                      required: 'Name is required',
+                      minLength: { value: 2, message: 'Name must be at least 2 characters' }
+                    })}
+                    className={getInputClass(!!errors.name)}
                     placeholder="Jane Doe"
                   />
-                  {errors.name && <span className="text-red-900 text-[10px] mt-1 uppercase tracking-wide">{errors.name.message}</span>}
+                  <AnimatePresence>
+                    {errors.name && (
+                      <motion.div 
+                        initial={{ opacity: 0, y: -5 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        exit={{ opacity: 0 }}
+                        className="flex items-center mt-2 text-red-600"
+                      >
+                        <AlertCircle className="w-3 h-3 mr-1" />
+                        <span className="text-[10px] uppercase tracking-wide font-medium">{errors.name.message}</span>
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
                 </div>
-                <div>
+                <div className="relative">
                   <label className="block text-xs font-bold uppercase tracking-widest text-primary mb-3">Email Address</label>
                   <input 
                     type="email"
-                    {...register('email', { required: 'Email is required' })}
-                    className="w-full px-0 py-3 bg-transparent border-b border-primary/20 focus:border-primary outline-none transition-colors placeholder-primary/30 text-primary"
+                    {...register('email', { 
+                      required: 'Email is required',
+                      pattern: {
+                        value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
+                        message: "Invalid email address"
+                      }
+                    })}
+                    className={getInputClass(!!errors.email)}
                     placeholder="jane@example.com"
                   />
-                  {errors.email && <span className="text-red-900 text-[10px] mt-1 uppercase tracking-wide">{errors.email.message}</span>}
+                  <AnimatePresence>
+                    {errors.email && (
+                      <motion.div 
+                        initial={{ opacity: 0, y: -5 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        exit={{ opacity: 0 }}
+                        className="flex items-center mt-2 text-red-600"
+                      >
+                        <AlertCircle className="w-3 h-3 mr-1" />
+                        <span className="text-[10px] uppercase tracking-wide font-medium">{errors.email.message}</span>
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
                 </div>
               </div>
 
@@ -100,31 +143,50 @@ const Contact: React.FC = () => {
                   <input 
                     type="tel"
                     {...register('phone')}
-                    className="w-full px-0 py-3 bg-transparent border-b border-primary/20 focus:border-primary outline-none transition-colors placeholder-primary/30 text-primary"
+                    className={getInputClass(false)} // Phone is optional in this schema
                     placeholder="+1 (555) 000-0000"
                   />
                 </div>
                 <div>
                   <label className="block text-xs font-bold uppercase tracking-widest text-primary mb-3">Service</label>
-                  <select 
-                    {...register('type')}
-                    className="w-full px-0 py-3 bg-transparent border-b border-primary/20 focus:border-primary outline-none transition-colors text-primary"
-                  >
-                    <option value="wedding">Wedding / Elopement</option>
-                    <option value="portrait">Portrait Session</option>
-                    <option value="commercial">Commercial / Brand</option>
-                  </select>
+                  <div className="relative">
+                    <select 
+                      {...register('type')}
+                      className="w-full px-0 py-3 bg-transparent border-b border-primary/20 focus:border-primary outline-none transition-colors text-primary appearance-none rounded-none"
+                    >
+                      <option value="wedding">Wedding / Elopement</option>
+                      <option value="portrait">Portrait Session</option>
+                      <option value="commercial">Commercial / Brand</option>
+                    </select>
+                    {/* Custom arrow could go here */}
+                  </div>
                 </div>
               </div>
               
-              <div>
+              <div className="relative">
                 <label className="block text-xs font-bold uppercase tracking-widest text-primary mb-3">Your Vision</label>
                 <textarea 
-                  {...register('message', { required: 'Message is required' })}
+                  {...register('message', { 
+                    required: 'Please tell us a bit about your project',
+                    minLength: { value: 10, message: 'Message is too short' }
+                  })}
                   rows={4}
-                  className="w-full px-0 py-3 bg-transparent border-b border-primary/20 focus:border-primary outline-none transition-colors resize-none placeholder-primary/30 text-primary"
+                  className={`${getInputClass(!!errors.message)} resize-none`}
                   placeholder="Tell us about your plans..."
                 />
+                 <AnimatePresence>
+                    {errors.message && (
+                      <motion.div 
+                        initial={{ opacity: 0, y: -5 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        exit={{ opacity: 0 }}
+                        className="flex items-center mt-2 text-red-600"
+                      >
+                        <AlertCircle className="w-3 h-3 mr-1" />
+                        <span className="text-[10px] uppercase tracking-wide font-medium">{errors.message.message}</span>
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
               </div>
 
               <Button type="submit" fullWidth disabled={isSubmitting} className="mt-4">

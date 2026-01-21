@@ -16,13 +16,14 @@ const Portfolio: React.FC = () => {
 
   return (
     <Layout>
-      <div className="bg-background text-primary pt-40 pb-24 relative">
-        <div className="container mx-auto px-6 text-center relative z-10">
+      {/* Responsive top padding: pt-32 on mobile, pt-40 on desktop */}
+      <div className="bg-background text-primary pt-32 md:pt-40 pb-16 md:pb-24 relative">
+        <div className="container text-center relative z-10">
           <motion.h1 
             initial={{ opacity: 0, y: 40 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ type: "spring", stiffness: 50, damping: 20 }}
-            className="text-6xl md:text-8xl font-serif mb-8 text-primary tracking-tight"
+            className="text-fluid-h1 font-serif mb-6 md:mb-8 text-primary tracking-tight"
           >
             Portfolio
           </motion.h1>
@@ -30,21 +31,21 @@ const Portfolio: React.FC = () => {
             initial={{ opacity: 0, y: 40 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ type: "spring", stiffness: 50, damping: 20, delay: 0.1 }}
-            className="text-muted max-w-xl mx-auto text-lg leading-relaxed font-light"
+            className="text-muted max-w-xl mx-auto text-base md:text-lg leading-relaxed font-light px-4"
           >
             A curated collection of our finest work, showcasing the emotion, detail, and artistry.
           </motion.p>
         </div>
       </div>
 
-      <div className="container mx-auto px-6 pb-24 bg-background">
+      <div className="container pb-24 bg-background">
         {/* Filter Tabs */}
-        <div className="flex flex-wrap justify-center gap-4 mb-20">
+        <div className="flex flex-wrap justify-center gap-2 md:gap-4 mb-16 md:mb-20">
           {categories.map((cat) => (
             <button
               key={cat}
               onClick={() => setFilter(cat)}
-              className={`relative px-4 py-2 text-xs uppercase tracking-widest font-medium transition-colors duration-500 z-10 ${
+              className={`relative px-4 py-2 text-[10px] md:text-xs uppercase tracking-widest font-medium transition-colors duration-500 z-10 ${
                 filter === cat ? 'text-primary' : 'text-muted hover:text-primary'
               }`}
             >
@@ -74,7 +75,7 @@ const Portfolio: React.FC = () => {
                 exit={{ opacity: 0, scale: 0.95, transition: { duration: 0.2 } }}
                 transition={{ type: "spring", stiffness: 50, damping: 15 }} // Heavy physics
                 key={photo.id} 
-                className="break-inside-avoid group relative overflow-hidden bg-surface cursor-pointer"
+                className="break-inside-avoid group relative overflow-hidden bg-surface cursor-pointer mb-8"
               >
                 <img 
                   src={photo.url} 
@@ -98,10 +99,10 @@ const Portfolio: React.FC = () => {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ type: "spring", stiffness: 50, damping: 20 }}
-          className="mt-32 text-center border-t border-primary/5 pt-20"
+          className="mt-20 md:mt-32 text-center border-t border-primary/5 pt-16 md:pt-20"
         >
-          <h3 className="text-3xl font-serif mb-6 text-primary">See something you like?</h3>
-          <p className="text-muted mb-10 max-w-lg mx-auto">Let's discuss how we can bring a similar aesthetic to your project.</p>
+          <h3 className="text-2xl md:text-3xl font-serif mb-6 text-primary">See something you like?</h3>
+          <p className="text-muted mb-10 max-w-lg mx-auto text-sm md:text-base">Let's discuss how we can bring a similar aesthetic to your project.</p>
           <Button onClick={() => navigate('/contact')}>Book Consultation</Button>
         </motion.div>
       </div>

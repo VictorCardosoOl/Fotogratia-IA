@@ -18,13 +18,13 @@ const SectionTitle: React.FC<SectionTitleProps> = ({
   const alignItem = alignment === 'center' ? 'items-center' : 'items-start';
 
   return (
-    <div className={`mb-16 ${alignClass} ${className} flex flex-col ${alignItem}`}>
+    <div className={`mb-12 md:mb-16 ${alignClass} ${className} flex flex-col ${alignItem}`}>
       <motion.span 
         initial={{ opacity: 0, y: 15 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true, margin: "-50px" }}
         transition={{ duration: 0.6, ease: "easeOut" }}
-        className="text-accent uppercase tracking-[0.2em] text-xs font-bold mb-3 block"
+        className="text-accent uppercase tracking-[0.2em] text-[10px] md:text-xs font-bold mb-3 block"
       >
         {subtitle}
       </motion.span>
@@ -33,7 +33,8 @@ const SectionTitle: React.FC<SectionTitleProps> = ({
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true, margin: "-50px" }}
         transition={{ duration: 0.7, delay: 0.1, ease: [0.22, 1, 0.36, 1] }}
-        className="text-4xl md:text-5xl font-serif text-primary font-medium"
+        // Using fluid typography logic: text-3xl on mobile, scaling to 5xl on desktop
+        className="text-3xl md:text-4xl lg:text-5xl font-serif text-primary font-medium leading-tight"
       >
         {title}
       </motion.h2>

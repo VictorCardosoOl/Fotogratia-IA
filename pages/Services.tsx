@@ -1,7 +1,7 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Check } from 'lucide-react';
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 import Layout from '../components/Layout';
 import SectionTitle from '../components/SectionTitle';
 import Button from '../components/Button';
@@ -9,66 +9,106 @@ import { SERVICES } from '../constants';
 
 const Services: React.FC = () => {
   const navigate = useNavigate();
+  const [filter, setFilter] = useState<string>('all');
+  const categories = ['all', 'wedding', 'portrait', 'commercial'];
+
+  const filteredServices = filter === 'all' 
+    ? SERVICES 
+    : SERVICES.filter(service => service.id === filter);
 
   return (
     <Layout>
-      <div className="pt-40 pb-20 bg-background relative">
-        <div className="container mx-auto px-6 relative z-10 text-center">
+      <div className="pt-32 md:pt-40 pb-16 md:pb-20 bg-background relative">
+        <div className="container relative z-10 text-center">
           <SectionTitle subtitle="Investment" title="Services & Pricing" />
-          <p className="text-center text-muted max-w-2xl mx-auto -mt-10 mb-16 text-lg font-light">
+          <p className="text-center text-muted max-w-2xl mx-auto -mt-6 md:-mt-10 mb-10 md:mb-16 text-base md:text-lg font-light">
             Transparent pricing for timeless memories.
           </p>
         </div>
       </div>
 
-      <div className="container mx-auto px-6 pb-24 bg-background">
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-start max-w-6xl mx-auto">
-          {SERVICES.map((service, index) => (
-            <motion.div 
-              initial={{ opacity: 0, y: 50 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-50px" }}
-              transition={{ delay: index * 0.15, type: "spring", stiffness: 50, damping: 20 }}
-              key={service.id} 
-              className={`relative flex flex-col p-10 transition-all duration-500 group ${
-                index === 1 
-                  ? 'bg-primary text-white shadow-2xl shadow-primary/10 -translate-y-4' 
-                  : 'bg-surface text-primary hover:bg-white hover:shadow-xl hover:shadow-primary/5'
+      <div className="container pb-24 bg-background">
+        
+        {/* Filter Tabs */}
+        <div className="flex flex-wrap justify-center gap-2 md:gap-4 mb-16 md:mb-20">
+          {categories.map((cat) => (
+            <button
+              key={cat}
+              onClick={() => setFilter(cat)}
+              className={`relative px-4 py-2 text-[10px] md:text-xs uppercase tracking-widest font-medium transition-colors duration-500 z-10 ${
+                filter === cat ? 'text-primary' : 'text-muted hover:text-primary'
               }`}
             >
-              <h3 className="text-2xl font-serif font-medium mb-4">{service.title}</h3>
-              <p className={`text-3xl font-light mb-8 flex items-baseline ${index === 1 ? 'text-white' : 'text-primary'}`}>
-                {service.price}
-              </p>
-              <p className={`text-sm mb-10 leading-relaxed font-light ${index === 1 ? 'text-white/70' : 'text-muted'}`}>
-                {service.description}
-              </p>
-
-              <ul className="mb-12 space-y-5 flex-grow">
-                {service.features.map((feature, idx) => (
-                  <li key={idx} className="flex items-start">
-                    <Check className={`w-4 h-4 mr-4 flex-shrink-0 ${index === 1 ? 'text-white/50' : 'text-secondary'}`} />
-                    <span className="text-sm tracking-wide">{feature}</span>
-                  </li>
-                ))}
-              </ul>
-
-              <Button 
-                variant={index === 1 ? 'outline' : 'primary'} 
-                fullWidth
-                className={index === 1 ? 'border-white/30 text-white hover:bg-white hover:text-primary' : ''}
-                onClick={() => navigate('/contact')}
-              >
-                {service.cta}
-              </Button>
-            </motion.div>
+              {cat}
+              {filter === cat && (
+                <motion.div
+                  layoutId="activeFilterService"
+                  className="absolute bottom-0 left-0 right-0 h-px bg-primary"
+                  transition={{ type: "spring", stiffness: 300, damping: 30 }}
+                />
+              )}
+            </button>
           ))}
         </div>
 
+        <motion.div 
+            layout
+            className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-start max-w-6xl mx-auto"
+        >
+          <AnimatePresence mode="popLayout">
+            {filteredServices.map((service, index) => (
+                <motion.div 
+                layout
+                initial={{ opacity: 0, scale: 0.9, y: 20 }}
+                animate={{ opacity: 1, scale: 1, y: 0 }}
+                exit={{ opacity: 0, scale: 0.9, transition: { duration: 0.2 } }}
+                transition={{ 
+                    duration: 0.4,
+                    type: "spring",
+                    stiffness: 100,
+                    damping: 20
+                }}
+                key={service.id} 
+                className={`relative flex flex-col p-8 md:p-10 transition-all duration-500 group h-full rounded-sm ${
+                    service.id === 'portrait' // Highlight middle item logic if displayed in grid, otherwise standard
+                    ? 'bg-primary text-white shadow-2xl shadow-primary/10' 
+                    : 'bg-surface text-primary hover:bg-white hover:shadow-xl hover:shadow-primary/5'
+                }`}
+                >
+                <h3 className="text-2xl font-serif font-medium mb-4">{service.title}</h3>
+                <p className={`text-3xl font-light mb-8 flex items-baseline ${service.id === 'portrait' ? 'text-white' : 'text-primary'}`}>
+                    {service.price}
+                </p>
+                <p className={`text-sm mb-10 leading-relaxed font-light ${service.id === 'portrait' ? 'text-white/70' : 'text-muted'}`}>
+                    {service.description}
+                </p>
+
+                <ul className="mb-12 space-y-5 flex-grow">
+                    {service.features.map((feature, idx) => (
+                    <li key={idx} className="flex items-start">
+                        <Check className={`w-4 h-4 mr-4 flex-shrink-0 ${service.id === 'portrait' ? 'text-white/50' : 'text-secondary'}`} />
+                        <span className="text-sm tracking-wide">{feature}</span>
+                    </li>
+                    ))}
+                </ul>
+
+                <Button 
+                    variant={service.id === 'portrait' ? 'outline' : 'primary'} 
+                    fullWidth
+                    className={service.id === 'portrait' ? 'border-white/30 text-white hover:bg-white hover:text-primary' : ''}
+                    onClick={() => navigate('/contact')}
+                >
+                    {service.cta}
+                </Button>
+                </motion.div>
+            ))}
+          </AnimatePresence>
+        </motion.div>
+
         {/* Process Section */}
-        <div className="mt-40">
+        <div className="mt-24 md:mt-40">
             <SectionTitle subtitle="Workflow" title="The Process" />
-            <div className="grid grid-cols-1 md:grid-cols-4 gap-12 mt-20">
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-8 md:gap-12 mt-12 md:mt-20">
                 {[
                     { step: '01', title: 'Connect', desc: 'Inquiry form & consultation.' },
                     { step: '02', title: 'Plan', desc: 'Mood board & shot list creation.' },

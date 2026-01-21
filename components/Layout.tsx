@@ -41,10 +41,10 @@ const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
       {/* Header */}
       <header 
         className={`fixed top-0 left-0 right-0 z-50 transition-all duration-700 ease-[0.16,1,0.3,1] ${
-          isScrolled ? 'bg-background/95 backdrop-blur-sm py-5 border-b border-primary/5' : 'bg-transparent py-8'
+          isScrolled ? 'bg-background/95 backdrop-blur-sm py-4 md:py-5 border-b border-primary/5' : 'bg-transparent py-6 md:py-8'
         }`}
       >
-        <div className="container mx-auto px-6 flex items-center justify-between">
+        <div className="container flex items-center justify-between">
           <RouterNavLink to="/" className={`text-2xl font-serif font-semibold tracking-tight z-50 transition-colors duration-500 ${headerLogoColor}`}>
             LUMINA
           </RouterNavLink>
@@ -56,7 +56,7 @@ const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
                 key={link.path}
                 to={link.path}
                 className={({ isActive }) =>
-                  `text-sm tracking-widest uppercase transition-colors relative group ${
+                  `text-xs lg:text-sm tracking-widest uppercase transition-colors relative group ${
                     isActive ? activeLinkClass : navLinkClass
                   }`
                 }
@@ -116,21 +116,21 @@ const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
       </div>
 
       {/* Main Content */}
-      <main className="flex-grow pt-0 w-full">
+      <main className="flex-grow pt-0 w-full relative">
         {children}
       </main>
 
       {/* Footer - Warm Stone Aesthetic */}
-      <footer className="bg-surface text-primary py-20 w-full relative overflow-hidden border-t border-primary/5">
-        <div className="container mx-auto px-6 grid grid-cols-1 md:grid-cols-3 gap-12 relative z-10">
-          <div>
+      <footer className="bg-surface text-primary py-16 md:py-20 w-full relative overflow-hidden border-t border-primary/5">
+        <div className="container grid grid-cols-1 md:grid-cols-12 gap-12 relative z-10">
+          <div className="md:col-span-6 lg:col-span-5">
             <h3 className="text-3xl font-serif font-bold mb-6 text-primary">LUMINA</h3>
-            <p className="text-muted text-sm leading-relaxed max-w-xs font-light">
-              Crafting visual legacies with a focus on light, composition, and authentic emotion.
+            <p className="text-muted text-sm leading-relaxed max-w-sm font-light">
+              Crafting visual legacies with a focus on light, composition, and authentic emotion. We believe in the power of print and the eternity of a captured moment.
             </p>
           </div>
           
-          <div>
+          <div className="md:col-span-3 lg:col-span-3 md:col-start-8 lg:col-start-8">
             <h4 className="text-xs font-bold uppercase tracking-widest mb-6 text-primary/80">Contact</h4>
             <div className="space-y-4 text-muted text-sm font-light">
               <p>{CONTACT_INFO.location}</p>
@@ -139,24 +139,41 @@ const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
             </div>
           </div>
 
-          <div>
+          <div className="md:col-span-3 lg:col-span-2">
             <h4 className="text-xs font-bold uppercase tracking-widest mb-6 text-primary/80">Connect</h4>
             <div className="flex space-x-4">
-              <a href="#" className="p-3 bg-white border border-primary/5 rounded-full hover:bg-primary hover:text-white transition-all duration-500 ease-out">
+              <a 
+                href="https://instagram.com" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="p-3 bg-white border border-primary/5 rounded-full hover:bg-primary hover:text-white transition-all duration-500 ease-out" 
+                aria-label="Instagram"
+              >
                 <Instagram className="w-4 h-4" />
               </a>
-              <a href="#" className="p-3 bg-white border border-primary/5 rounded-full hover:bg-primary hover:text-white transition-all duration-500 ease-out">
+              <a 
+                href="https://facebook.com" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="p-3 bg-white border border-primary/5 rounded-full hover:bg-primary hover:text-white transition-all duration-500 ease-out" 
+                aria-label="Facebook"
+              >
                 <Facebook className="w-4 h-4" />
               </a>
-              <a href="#" className="p-3 bg-white border border-primary/5 rounded-full hover:bg-primary hover:text-white transition-all duration-500 ease-out">
+              <a 
+                href={`mailto:${CONTACT_INFO.email}`}
+                className="p-3 bg-white border border-primary/5 rounded-full hover:bg-primary hover:text-white transition-all duration-500 ease-out" 
+                aria-label="Email"
+              >
                 <Mail className="w-4 h-4" />
               </a>
             </div>
           </div>
         </div>
-        <div className="container mx-auto px-6 mt-20 pt-8 border-t border-primary/5 text-center md:text-left text-xs text-muted/60 flex flex-col md:flex-row justify-between items-center relative z-10">
+        
+        <div className="container mt-20 pt-8 border-t border-primary/5 text-center md:text-left text-xs text-muted/60 flex flex-col md:flex-row justify-between items-center relative z-10 gap-4">
           <p>&copy; {new Date().getFullYear()} Lumina Photography. All rights reserved.</p>
-          <div className="flex space-x-6 mt-4 md:mt-0">
+          <div className="flex space-x-6">
             <a href="#" className="hover:text-primary transition-colors">Privacy Policy</a>
             <a href="#" className="hover:text-primary transition-colors">Terms of Service</a>
           </div>
