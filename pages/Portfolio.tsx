@@ -3,108 +3,154 @@ import { useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import Layout from '../components/Layout';
 import Button from '../components/Button';
+import Reveal from '../components/Reveal';
+import SplitText from '../components/SplitText';
 import { PHOTOS } from '../constants';
 
 const Portfolio: React.FC = () => {
   const navigate = useNavigate();
-  const [filter, setFilter] = useState<string>('all');
-  const categories = ['all', 'wedding', 'portrait', 'commercial', 'editorial'];
+  const [activeCategories, setActiveCategories] = useState<string[]>([]);
+  const categories = ['wedding', 'portrait', 'commercial', 'editorial'];
 
-  const filteredPhotos = filter === 'all' 
+  const toggleCategory = (cat: string) => {
+    setActiveCategories(prev => {
+      if (prev.includes(cat)) {
+        return prev.filter(c => c !== cat);
+      } else {
+        return [...prev, cat];
+      }
+    });
+  };
+
+  const clearFilters = () => setActiveCategories([]);
+
+  const filteredPhotos = activeCategories.length === 0
     ? PHOTOS 
-    : PHOTOS.filter(photo => photo.category === filter);
+    : PHOTOS.filter(photo => activeCategories.includes(photo.category));
 
   return (
     <Layout>
-      {/* Responsive top padding: pt-32 on mobile, pt-40 on desktop */}
-      <div className="bg-background text-primary pt-32 md:pt-40 pb-16 md:pb-24 relative">
-        <div className="container text-center relative z-10">
-          <motion.h1 
-            initial={{ opacity: 0, y: 40 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ type: "spring", stiffness: 50, damping: 20 }}
-            className="text-fluid-h1 font-serif mb-6 md:mb-8 text-primary tracking-tight"
-          >
-            Portfolio
-          </motion.h1>
+      {/* Minimal Header */}
+      <div className="bg-black text-white pt-40 pb-20 relative border-b border-white/5">
+        <div className="container flex flex-col md:flex-row justify-between items-end relative z-10 px-6">
+          <div>
+              <motion.span 
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                className="text-[10px] uppercase tracking-[0.4em] text-secondary block mb-4"
+              >
+                  Curated Works
+              </motion.span>
+              <div className="overflow-hidden">
+                <SplitText tag="h1" className="text-6xl md:text-8xl font-serif italic text-white tracking-tighter">
+                    Archive
+                </SplitText>
+              </div>
+          </div>
           <motion.p 
-            initial={{ opacity: 0, y: 40 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ type: "spring", stiffness: 50, damping: 20, delay: 0.1 }}
-            className="text-muted max-w-xl mx-auto text-base md:text-lg leading-relaxed font-light px-4"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.4 }}
+            className="text-secondary max-w-xs text-sm font-light mt-8 md:mt-0 text-right"
           >
-            A curated collection of our finest work, showcasing the emotion, detail, and artistry.
+            A collection of visual memories, processed with care and cinematic intent.
           </motion.p>
         </div>
       </div>
 
-      <div className="container pb-24 bg-background">
-        {/* Filter Tabs */}
-        <div className="flex flex-wrap justify-center gap-2 md:gap-4 mb-16 md:mb-20">
-          {categories.map((cat) => (
+      <div className="min-h-screen bg-black pt-16 pb-24">
+        <div className="container px-6">
+            
+          {/* Filters - Minimal Text */}
+          <div className="flex flex-wrap gap-8 mb-20 items-center">
+            <span className="text-white/30 text-[10px] uppercase tracking-widest mr-4">Filter By:</span>
             <button
-              key={cat}
-              onClick={() => setFilter(cat)}
-              className={`relative px-4 py-2 text-[10px] md:text-xs uppercase tracking-widest font-medium transition-colors duration-500 z-10 ${
-                filter === cat ? 'text-primary' : 'text-muted hover:text-primary'
-              }`}
+                onClick={clearFilters}
+                className={`text-[10px] uppercase tracking-[0.2em] transition-all duration-300 border-b border-transparent ${
+                activeCategories.length === 0
+                    ? 'text-white border-accent'
+                    : 'text-secondary hover:text-white'
+                }`}
             >
-              {cat}
-              {filter === cat && (
-                <motion.div
-                  layoutId="activeFilter"
-                  className="absolute bottom-0 left-0 right-0 h-px bg-primary"
-                  transition={{ type: "spring", stiffness: 300, damping: 30 }}
-                />
-              )}
+                All
             </button>
-          ))}
-        </div>
 
-        {/* Masonry Grid */}
-        <motion.div 
-          layout
-          className="columns-1 md:columns-2 lg:columns-3 gap-8 space-y-8"
-        >
-          <AnimatePresence mode="popLayout">
-            {filteredPhotos.map((photo) => (
-              <motion.div 
-                layout
-                initial={{ opacity: 0, scale: 0.95, y: 20 }}
-                animate={{ opacity: 1, scale: 1, y: 0 }}
-                exit={{ opacity: 0, scale: 0.95, transition: { duration: 0.2 } }}
-                transition={{ type: "spring", stiffness: 50, damping: 15 }} // Heavy physics
-                key={photo.id} 
-                className="break-inside-avoid group relative overflow-hidden bg-surface cursor-pointer mb-8"
-              >
-                <img 
-                  src={photo.url} 
-                  alt={photo.title} 
-                  className="w-full h-auto object-cover transition-transform duration-[1.2s] ease-[0.16,1,0.3,1] group-hover:scale-105"
-                  loading="lazy"
-                />
-                <div className="absolute inset-0 bg-primary/20 opacity-0 group-hover:opacity-100 transition-opacity duration-500 flex items-center justify-center">
-                  <div className="text-center text-white p-4 translate-y-4 group-hover:translate-y-0 transition-transform duration-500">
-                    <h3 className="text-xl font-serif italic">{photo.title}</h3>
+            {categories.map((cat) => {
+                const isActive = activeCategories.includes(cat);
+                return (
+                <button
+                    key={cat}
+                    onClick={() => toggleCategory(cat)}
+                    className={`text-[10px] uppercase tracking-[0.2em] transition-all duration-300 border-b border-transparent ${
+                    isActive
+                        ? 'text-white border-accent'
+                        : 'text-secondary hover:text-white'
+                    }`}
+                >
+                    {cat}
+                </button>
+                );
+            })}
+          </div>
+
+          {/* Artistic Grid */}
+          <motion.div 
+            layout
+            className="columns-1 md:columns-2 lg:columns-3 gap-12 space-y-12"
+          >
+            <AnimatePresence mode="popLayout">
+              {filteredPhotos.map((photo) => (
+                <motion.div 
+                  layout
+                  initial={{ opacity: 0, y: 50, filter: 'blur(10px)' }}
+                  animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
+                  exit={{ opacity: 0, filter: 'blur(5px)', scale: 0.95, transition: { duration: 0.3 } }}
+                  transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
+                  key={photo.id} 
+                  className="break-inside-avoid group relative cursor-pointer"
+                >
+                  <div className="overflow-hidden relative bg-surface">
+                      {/* Interaction: Scale and Grayscale removal on hover */}
+                      <img 
+                        src={photo.url} 
+                        alt={photo.title} 
+                        className="w-full h-auto object-cover grayscale-[80%] group-hover:grayscale-0 scale-100 group-hover:scale-105 transition-all duration-[1s] ease-[0.22,1,0.36,1]"
+                        loading="lazy"
+                      />
+                      
+                      {/* Slight darkened overlay that lifts on hover for clarity */}
+                      <div className="absolute inset-0 bg-black/10 group-hover:bg-transparent transition-colors duration-700 pointer-events-none" />
                   </div>
-                </div>
-              </motion.div>
-            ))}
-          </AnimatePresence>
-        </motion.div>
 
-        {/* CTA */}
-        <motion.div 
-          initial={{ opacity: 0, y: 40 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ type: "spring", stiffness: 50, damping: 20 }}
-          className="mt-20 md:mt-32 text-center border-t border-primary/5 pt-16 md:pt-20"
-        >
-          <h3 className="text-2xl md:text-3xl font-serif mb-6 text-primary">See something you like?</h3>
-          <p className="text-muted mb-10 max-w-lg mx-auto text-sm md:text-base">Let's discuss how we can bring a similar aesthetic to your project.</p>
-          <Button onClick={() => navigate('/contact')}>Book Consultation</Button>
-        </motion.div>
+                  {/* Interaction: Slide UP from bottom and fade in text */}
+                  {/* Using translate-y-full to start from bottom, animating to 0 */}
+                  <div className="mt-4 flex justify-between items-start overflow-hidden">
+                    <div className="transform translate-y-full opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-700 ease-[0.22,1,0.36,1]">
+                         <h3 className="text-xl font-serif italic text-white">{photo.title}</h3>
+                    </div>
+                    
+                    <div className="transform translate-y-full opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-700 delay-75 ease-[0.22,1,0.36,1]">
+                        <span className="text-[9px] uppercase tracking-widest text-secondary border border-white/20 px-2 py-1 rounded-full">
+                            {photo.category}
+                        </span>
+                    </div>
+                  </div>
+                </motion.div>
+              ))}
+            </AnimatePresence>
+          </motion.div>
+
+          {/* CTA */}
+          <motion.div 
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            viewport={{ once: true }}
+            className="mt-40 text-center border-t border-white/5 pt-20"
+          >
+            <h3 className="text-3xl font-serif italic text-white mb-6">Create with us.</h3>
+            <Button variant="text" onClick={() => navigate('/contact')} className="text-lg">Start Project</Button>
+          </motion.div>
+        </div>
       </div>
     </Layout>
   );

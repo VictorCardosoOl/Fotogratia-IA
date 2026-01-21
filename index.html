@@ -4,11 +4,11 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
     <meta http-equiv="Permissions-Policy" content="browsing-topics=()">
-    <title>Lumina | Professional Photography</title>
+    <title>Lumina | Visual Narratives</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500;1,600&family=Inter:wght@200;300;400;500&display=swap" rel="stylesheet">
     <script>
       tailwind.config = {
         theme: {
@@ -26,7 +26,7 @@
               md: '768px',
               lg: '1024px',
               xl: '1280px',
-              '2xl': '1440px', // Limiting max width for readability
+              '2xl': '1440px',
             },
           },
           extend: {
@@ -35,19 +35,17 @@
               serif: ['Cormorant Garamond', 'serif'],
             },
             colors: {
-              // 'Organic Modernism' Palette - Stone, Linen, Charcoal
-              primary: '#44403C', // Stone 700 - Warm Charcoal
-              secondary: '#78716C', // Stone 500 - Medium Warm Grey
-              accent: '#E7E5E4', // Stone 200 - Light Grey Accent
-              background: '#FAFAF9', // Stone 50 - Warm White/Linen
-              surface: '#F5F5F4', // Stone 100 - Very subtle contrast
-              dark: '#292524', // Stone 800 - Deepest text
-              muted: '#A8A29E', // Stone 400 - Muted text
+              // 'Darkroom Cinema' Palette - High Contrast, Moody, Artistic
+              primary: '#E5E5E5', // Ivory/Bone White - Main text
+              secondary: '#A1A1AA', // Cool Zinc Grey - Subtitles
+              accent: '#7F1D1D', // Deep Red/Burgundy - Subtle cinematic accent (like a darkroom light)
+              background: '#050505', // True Black - Deep depth
+              surface: '#121212', // Off-Black - Subtle separation
+              dark: '#000000', // Absolute Black
+              muted: '#52525B', // Dark Grey - Non-essential text
             },
-            spacing: {
-              '18': '4.5rem',
-              '112': '28rem',
-              '128': '32rem',
+            backgroundImage: {
+              'vignette': 'radial-gradient(circle, rgba(0,0,0,0) 50%, rgba(0,0,0,0.8) 100%)',
             }
           }
         }
@@ -55,25 +53,25 @@
     </script>
     <style>
       :root {
-        --foreground-rgb: 68, 64, 60;
+        --foreground-rgb: 229, 229, 229;
       }
+      
       body {
-        background-color: #FAFAF9;
-        color: #44403C;
+        background-color: #050505;
+        color: #E5E5E5;
         width: 100%;
         min-height: 100vh;
-        overflow-x: hidden; /* Prevent horizontal scroll from animations */
+        overflow-x: hidden;
         position: relative;
         -webkit-font-smoothing: antialiased;
         -moz-osx-font-smoothing: grayscale;
       }
       
-      /* Fluid Typography Helper */
-      .text-fluid-h1 { font-size: clamp(3rem, 5vw + 1rem, 6rem); }
-      .text-fluid-h2 { font-size: clamp(2.25rem, 4vw + 1rem, 4.5rem); }
-      .text-fluid-h3 { font-size: clamp(1.5rem, 3vw, 2.5rem); }
+      .text-fluid-h1 { font-size: clamp(3.5rem, 6vw + 1rem, 7rem); }
+      .text-fluid-h2 { font-size: clamp(2.5rem, 5vw + 1rem, 5rem); }
+      .text-fluid-h3 { font-size: clamp(1.75rem, 3.5vw, 3rem); }
       
-      /* Film Grain Texture */
+      /* Artistic Film Grain - Heavier, more noticeable for texture */
       .bg-noise {
         position: fixed;
         top: 0;
@@ -81,24 +79,31 @@
         width: 100%;
         height: 100%;
         pointer-events: none;
-        z-index: 9999;
-        opacity: 0.04;
-        background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+        z-index: 50; /* Lowered from 9999 to allow overlays and cursor to sit on top */
+        opacity: 0.07;
+        background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+        mix-blend-mode: overlay;
       }
 
-      /* Custom Scrollbar */
+      /* Custom scrollbar - Dark and thin */
       ::-webkit-scrollbar {
-        width: 8px;
+        width: 6px;
       }
       ::-webkit-scrollbar-track {
-        background: #FAFAF9; 
+        background: #050505; 
       }
       ::-webkit-scrollbar-thumb {
-        background: #D6D3D1; 
-        border-radius: 4px;
+        background: #3F3F46; 
+        border-radius: 0px;
       }
       ::-webkit-scrollbar-thumb:hover {
-        background: #A8A29E; 
+        background: #71717A; 
+      }
+      
+      /* Cinematic Selection */
+      ::selection {
+        background: #7F1D1D;
+        color: white;
       }
     </style>
   <script type="importmap">
@@ -110,7 +115,12 @@
     "react": "https://esm.sh/react@^19.2.3",
     "lucide-react": "https://esm.sh/lucide-react@^0.562.0",
     "react-hook-form": "https://esm.sh/react-hook-form@^7.71.1",
-    "framer-motion": "https://esm.sh/framer-motion@^11.0.8"
+    "framer-motion": "https://esm.sh/framer-motion@^11.0.8",
+    "gsap/": "https://esm.sh/gsap@^3.14.2/",
+    "gsap": "https://esm.sh/gsap@^3.14.2",
+    "@gsap/react": "https://esm.sh/@gsap/react@^2.1.2",
+    "lenis": "https://esm.sh/lenis@^1.3.17",
+    "split-type": "https://esm.sh/split-type@^0.3.4"
   }
 }
 </script>

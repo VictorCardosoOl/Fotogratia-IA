@@ -1,70 +1,87 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { NavLink as RouterNavLink, useNavigate, useLocation } from 'react-router-dom';
-import { Menu, X, Instagram, Facebook, Mail } from 'lucide-react';
+import { Menu, X } from 'lucide-react';
+import { motion } from 'framer-motion';
+import gsap from 'gsap';
+import { useGSAP } from '@gsap/react';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { NAV_LINKS, CONTACT_INFO } from '../constants';
 import Button from './Button';
+
+gsap.registerPlugin(ScrollTrigger);
 
 const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
+  const footerRef = useRef<HTMLDivElement>(null);
   const navigate = useNavigate();
   const location = useLocation();
 
-  const isHome = location.pathname === '/';
-  
-  const isTransparent = isHome && !isScrolled;
-  
-  const headerTextColor = isTransparent ? 'text-white' : 'text-primary';
-  const headerLogoColor = isTransparent ? 'text-white' : 'text-primary';
-  const navLinkClass = isTransparent 
-    ? 'text-white/80 hover:text-white' 
-    : 'text-muted hover:text-primary';
-  const activeLinkClass = isTransparent ? 'text-white font-medium' : 'text-primary font-medium';
-  const underlineClass = isTransparent ? 'bg-white' : 'bg-primary';
-  const mobileToggleColor = isTransparent ? 'text-white' : 'text-primary';
+  const navLinkClass = 'text-secondary hover:text-white transition-colors duration-500 tracking-widest text-[10px] uppercase font-light';
+  const activeLinkClass = 'text-white font-normal';
+  const underlineClass = 'bg-accent';
 
   useEffect(() => {
     const handleScroll = () => {
-      setIsScrolled(window.scrollY > 20);
+      setIsScrolled(window.scrollY > 50);
     };
     handleScroll();
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
+  // Footer Scroll Animation
+  useGSAP(() => {
+    if (!footerRef.current) return;
+
+    gsap.fromTo(footerRef.current, 
+      { opacity: 0.5, scale: 0.95, y: 20 },
+      {
+        opacity: 1,
+        scale: 1,
+        y: 0,
+        ease: "power2.out",
+        scrollTrigger: {
+          trigger: footerRef.current,
+          start: "top bottom", // When top of footer hits bottom of viewport
+          end: "bottom bottom", // When bottom of footer hits bottom of viewport
+          scrub: 1, // Smooth interaction
+        }
+      }
+    );
+  }, { scope: footerRef });
+
   const handleMobileNavClick = () => {
     setIsMobileMenuOpen(false);
   };
 
   return (
-    <div className="flex flex-col min-h-screen bg-background text-primary selection:bg-secondary/20 selection:text-primary">
-      {/* Header */}
+    <div className="flex flex-col min-h-screen bg-background text-primary selection:bg-accent selection:text-white font-sans">
+      {/* Cinematic Header - Always Overlay */}
       <header 
-        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-700 ease-[0.16,1,0.3,1] ${
-          isScrolled ? 'bg-background/95 backdrop-blur-sm py-4 md:py-5 border-b border-primary/5' : 'bg-transparent py-6 md:py-8'
+        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-700 ease-out ${
+          isScrolled ? 'bg-background/80 backdrop-blur-md py-4 border-b border-white/5' : 'bg-transparent py-8'
         }`}
       >
         <div className="container flex items-center justify-between">
-          <RouterNavLink to="/" className={`text-2xl font-serif font-semibold tracking-tight z-50 transition-colors duration-500 ${headerLogoColor}`}>
+          <RouterNavLink to="/" className="text-2xl md:text-3xl font-serif italic font-medium tracking-tight z-50 text-white hover:text-secondary transition-colors duration-500">
             LUMINA
           </RouterNavLink>
 
-          {/* Desktop Nav */}
-          <nav className="hidden md:flex items-center space-x-10">
+          {/* Desktop Nav - Minimal & Widescreen */}
+          <nav className="hidden md:flex items-center space-x-12">
             {NAV_LINKS.map((link) => (
               <RouterNavLink
                 key={link.path}
                 to={link.path}
                 className={({ isActive }) =>
-                  `text-xs lg:text-sm tracking-widest uppercase transition-colors relative group ${
-                    isActive ? activeLinkClass : navLinkClass
-                  }`
+                  `relative group py-2 ${isActive ? activeLinkClass : navLinkClass}`
                 }
               >
                 {({ isActive }) => (
                   <>
                     {link.label}
-                    <span className={`absolute -bottom-2 left-1/2 -translate-x-1/2 h-px transition-all duration-500 ease-out ${underlineClass} ${isActive ? 'w-full' : 'w-0 group-hover:w-full'}`}></span>
+                    <span className={`absolute -bottom-1 left-0 h-[1px] transition-all duration-500 ease-out ${underlineClass} ${isActive ? 'w-full' : 'w-0 group-hover:w-full opacity-50'}`}></span>
                   </>
                 )}
               </RouterNavLink>
@@ -72,47 +89,47 @@ const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
           </nav>
 
           {/* CTA & Mobile Toggle */}
-          <div className="flex items-center space-x-4">
+          <div className="flex items-center space-x-6">
             <div className="hidden md:block">
               <Button 
-                variant={isTransparent ? 'outline' : 'primary'} 
+                variant="text" 
                 onClick={() => navigate('/contact')}
-                className={`
-                  ${isTransparent ? 'border-white text-white hover:bg-white hover:text-primary' : ''}
-                `}
+                className="text-white hover:text-accent font-serif italic text-base capitalize"
               >
-                Book Now
+                Inquire
               </Button>
             </div>
             
             <button 
-              className={`md:hidden z-50 p-2 focus:outline-none transition-colors duration-300 ${mobileToggleColor}`}
+              className="md:hidden z-50 p-2 focus:outline-none text-white hover:text-secondary transition-colors"
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
               aria-label="Toggle menu"
             >
-              {isMobileMenuOpen ? <X className="w-6 h-6 text-primary" /> : <Menu className="w-6 h-6" />}
+              {isMobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
             </button>
           </div>
         </div>
       </header>
 
-      {/* Mobile Menu Overlay */}
+      {/* Mobile Menu Overlay - Deep Black */}
       <div 
-        className={`fixed inset-0 bg-background z-40 transition-transform duration-700 ease-[0.22,1,0.36,1] transform ${
+        className={`fixed inset-0 bg-black z-40 transition-transform duration-[0.8s] ease-[0.16,1,0.3,1] transform ${
           isMobileMenuOpen ? 'translate-x-0' : 'translate-x-full'
-        } md:hidden flex flex-col justify-center items-center space-y-8 ${isMobileMenuOpen ? 'pointer-events-auto' : 'pointer-events-none'}`}
+        } md:hidden flex flex-col justify-center items-center space-y-10 ${isMobileMenuOpen ? 'pointer-events-auto' : 'pointer-events-none'}`}
       >
         {NAV_LINKS.map((link) => (
           <RouterNavLink
             key={link.path}
             to={link.path}
             onClick={handleMobileNavClick}
-            className="text-3xl font-serif text-primary hover:text-secondary transition-colors"
+            className="text-4xl font-serif italic text-white hover:text-accent transition-colors duration-300"
           >
             {link.label}
           </RouterNavLink>
         ))}
-        <Button onClick={() => { handleMobileNavClick(); navigate('/contact'); }}>Book a Session</Button>
+        <Button variant="outline" onClick={() => { handleMobileNavClick(); navigate('/contact'); }} className="mt-8 border-white text-white">
+            Start Project
+        </Button>
       </div>
 
       {/* Main Content */}
@@ -120,62 +137,64 @@ const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
         {children}
       </main>
 
-      {/* Footer - Warm Stone Aesthetic */}
-      <footer className="bg-surface text-primary py-16 md:py-20 w-full relative overflow-hidden border-t border-primary/5">
+      {/* Footer - "Movie Credits" Style */}
+      <footer 
+        ref={footerRef}
+        className="bg-black text-secondary py-24 w-full relative overflow-hidden border-t border-white/5 opacity-0"
+      >
         <div className="container grid grid-cols-1 md:grid-cols-12 gap-12 relative z-10">
-          <div className="md:col-span-6 lg:col-span-5">
-            <h3 className="text-3xl font-serif font-bold mb-6 text-primary">LUMINA</h3>
-            <p className="text-muted text-sm leading-relaxed max-w-sm font-light">
-              Crafting visual legacies with a focus on light, composition, and authentic emotion. We believe in the power of print and the eternity of a captured moment.
-            </p>
+          <div className="md:col-span-6 lg:col-span-5 flex flex-col justify-between h-full">
+            <div>
+                <h3 className="text-5xl font-serif italic font-light mb-8 text-white">LUMINA</h3>
+                <p className="text-muted text-sm leading-relaxed max-w-sm font-light tracking-wide">
+                A visual storytelling studio. Based in light, rooted in emotion. We document the unscripted and the profound.
+                </p>
+            </div>
           </div>
           
           <div className="md:col-span-3 lg:col-span-3 md:col-start-8 lg:col-start-8">
-            <h4 className="text-xs font-bold uppercase tracking-widest mb-6 text-primary/80">Contact</h4>
-            <div className="space-y-4 text-muted text-sm font-light">
-              <p>{CONTACT_INFO.location}</p>
-              <a href={`mailto:${CONTACT_INFO.email}`} className="block hover:text-primary transition-colors">{CONTACT_INFO.email}</a>
-              <a href={`tel:${CONTACT_INFO.phone}`} className="block hover:text-primary transition-colors">{CONTACT_INFO.phone}</a>
+            <h4 className="text-[10px] font-bold uppercase tracking-[0.25em] mb-8 text-white/50">Studio</h4>
+            <div className="space-y-6 text-sm font-light tracking-wide flex flex-col items-start">
+              <p className="text-white">{CONTACT_INFO.location}</p>
+              <motion.a 
+                href={`mailto:${CONTACT_INFO.email}`} 
+                className="block hover:text-accent transition-colors duration-300 origin-left"
+                whileHover={{ scale: 1.05, x: 5 }}
+              >
+                {CONTACT_INFO.email}
+              </motion.a>
+              <motion.a 
+                href={`tel:${CONTACT_INFO.phone}`} 
+                className="block hover:text-accent transition-colors duration-300 origin-left"
+                whileHover={{ scale: 1.05, x: 5 }}
+              >
+                {CONTACT_INFO.phone}
+              </motion.a>
             </div>
           </div>
 
           <div className="md:col-span-3 lg:col-span-2">
-            <h4 className="text-xs font-bold uppercase tracking-widest mb-6 text-primary/80">Connect</h4>
-            <div className="flex space-x-4">
-              <a 
-                href="https://instagram.com" 
-                target="_blank" 
-                rel="noopener noreferrer"
-                className="p-3 bg-white border border-primary/5 rounded-full hover:bg-primary hover:text-white transition-all duration-500 ease-out" 
-                aria-label="Instagram"
-              >
-                <Instagram className="w-4 h-4" />
-              </a>
-              <a 
-                href="https://facebook.com" 
-                target="_blank" 
-                rel="noopener noreferrer"
-                className="p-3 bg-white border border-primary/5 rounded-full hover:bg-primary hover:text-white transition-all duration-500 ease-out" 
-                aria-label="Facebook"
-              >
-                <Facebook className="w-4 h-4" />
-              </a>
-              <a 
-                href={`mailto:${CONTACT_INFO.email}`}
-                className="p-3 bg-white border border-primary/5 rounded-full hover:bg-primary hover:text-white transition-all duration-500 ease-out" 
-                aria-label="Email"
-              >
-                <Mail className="w-4 h-4" />
-              </a>
+            <h4 className="text-[10px] font-bold uppercase tracking-[0.25em] mb-8 text-white/50">Social</h4>
+            <div className="flex flex-col space-y-4 items-start">
+              {['Instagram', 'Vimeo', 'Pinterest'].map((social) => (
+                <motion.a 
+                  key={social}
+                  href="#" 
+                  className="hover:text-accent opacity-60 hover:opacity-100 text-sm block transition-colors duration-300 origin-left"
+                  whileHover={{ scale: 1.1, x: 5 }}
+                >
+                  {social}
+                </motion.a>
+              ))}
             </div>
           </div>
         </div>
         
-        <div className="container mt-20 pt-8 border-t border-primary/5 text-center md:text-left text-xs text-muted/60 flex flex-col md:flex-row justify-between items-center relative z-10 gap-4">
-          <p>&copy; {new Date().getFullYear()} Lumina Photography. All rights reserved.</p>
-          <div className="flex space-x-6">
-            <a href="#" className="hover:text-primary transition-colors">Privacy Policy</a>
-            <a href="#" className="hover:text-primary transition-colors">Terms of Service</a>
+        <div className="container mt-24 pt-8 border-t border-white/5 flex flex-col md:flex-row justify-between items-center relative z-10 gap-4 opacity-40 hover:opacity-80 transition-opacity duration-700">
+          <p className="text-[10px] uppercase tracking-widest">&copy; {new Date().getFullYear()} Lumina. Est. 2024</p>
+          <div className="flex space-x-8 text-[10px] uppercase tracking-widest">
+            <a href="#" className="hover:text-white hover:scale-105 transition-all duration-300">Privacy</a>
+            <a href="#" className="hover:text-white hover:scale-105 transition-all duration-300">Imprint</a>
           </div>
         </div>
       </footer>

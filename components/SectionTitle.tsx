@@ -1,5 +1,6 @@
 import React from 'react';
 import { motion } from 'framer-motion';
+import SplitText from './SplitText';
 
 interface SectionTitleProps {
   subtitle: string;
@@ -18,33 +19,44 @@ const SectionTitle: React.FC<SectionTitleProps> = ({
   const alignItem = alignment === 'center' ? 'items-center' : 'items-start';
 
   return (
-    <div className={`mb-12 md:mb-16 ${alignClass} ${className} flex flex-col ${alignItem}`}>
-      <motion.span 
-        initial={{ opacity: 0, y: 15 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true, margin: "-50px" }}
-        transition={{ duration: 0.6, ease: "easeOut" }}
-        className="text-accent uppercase tracking-[0.2em] text-[10px] md:text-xs font-bold mb-3 block"
-      >
-        {subtitle}
-      </motion.span>
-      <motion.h2 
-        initial={{ opacity: 0, y: 20 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true, margin: "-50px" }}
-        transition={{ duration: 0.7, delay: 0.1, ease: [0.22, 1, 0.36, 1] }}
-        // Using fluid typography logic: text-3xl on mobile, scaling to 5xl on desktop
-        className="text-3xl md:text-4xl lg:text-5xl font-serif text-primary font-medium leading-tight"
-      >
-        {title}
-      </motion.h2>
+    <div className={`mb-16 md:mb-24 ${alignClass} ${className} flex flex-col ${alignItem}`}>
       <motion.div 
-        initial={{ scaleX: 0 }}
-        whileInView={{ scaleX: 1 }}
-        viewport={{ once: true }}
-        transition={{ duration: 0.8, delay: 0.3, ease: "circOut" }}
-        className={`h-1 w-20 bg-accent mt-4 ${alignment === 'center' ? 'mx-auto' : ''} rounded-full opacity-60`}
-      />
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true, margin: "-20%" }}
+        variants={{
+            hidden: { opacity: 0 },
+            visible: { opacity: 1, transition: { staggerChildren: 0.15 } }
+        }}
+        className="flex items-center gap-4 mb-6"
+      >
+         <motion.span 
+            variants={{ hidden: { width: 0 }, visible: { width: 32 } }}
+            transition={{ duration: 1, ease: [0.22, 1, 0.36, 1] }}
+            className={`h-px bg-accent ${alignment === 'center' ? 'hidden md:block' : 'block'}`}
+         />
+         <motion.span 
+            variants={{ hidden: { opacity: 0, y: 10 }, visible: { opacity: 1, y: 0 } }}
+            transition={{ duration: 0.8, ease: "easeOut" }}
+            className="text-secondary uppercase tracking-[0.3em] text-[9px] font-medium"
+         >
+            {subtitle}
+         </motion.span>
+         <motion.span 
+            variants={{ hidden: { width: 0 }, visible: { width: 32 } }}
+            transition={{ duration: 1, ease: [0.22, 1, 0.36, 1] }}
+            className={`h-px bg-accent ${alignment === 'center' ? 'hidden md:block' : 'hidden'}`}
+         />
+      </motion.div>
+      
+      <div className="relative">
+        <SplitText 
+            tag="h2" 
+            className="text-4xl md:text-6xl lg:text-7xl font-serif text-white font-light italic leading-[1.1]"
+        >
+            {title}
+        </SplitText>
+      </div>
     </div>
   );
 };

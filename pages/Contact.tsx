@@ -17,7 +17,7 @@ type FormData = {
 
 const Contact: React.FC = () => {
   const { register, handleSubmit, formState: { errors, isSubmitting }, reset } = useForm<FormData>({
-    mode: 'onChange' // Real-time validation
+    mode: 'onChange' 
   });
 
   const onSubmit = async (data: FormData) => {
@@ -28,10 +28,10 @@ const Contact: React.FC = () => {
   };
 
   const getInputClass = (hasError: boolean) => 
-    `w-full px-0 py-3 bg-transparent border-b outline-none transition-all duration-300 placeholder-primary/30 text-primary ${
+    `w-full px-4 py-3 bg-surface border outline-none transition-all duration-300 placeholder-secondary/40 text-primary rounded-sm ${
       hasError 
-        ? 'border-red-500 focus:border-red-600' 
-        : 'border-primary/20 focus:border-primary'
+        ? 'border-red-500 focus:border-red-600 focus:ring-1 focus:ring-red-100' 
+        : 'border-accent focus:border-primary focus:ring-1 focus:ring-slate-100'
     }`;
 
   return (
@@ -39,7 +39,7 @@ const Contact: React.FC = () => {
       <div className="pt-32 md:pt-40 pb-16 md:pb-20 bg-background text-primary relative">
         <div className="container text-center relative z-10">
           <h1 className="text-fluid-h2 font-serif mb-6">Get in Touch</h1>
-          <p className="text-muted max-w-xl mx-auto font-light text-base md:text-lg">
+          <p className="text-secondary max-w-xl mx-auto font-light text-base md:text-lg">
             We are currently accepting bookings for the 2024-2025 season.
           </p>
         </div>
@@ -52,35 +52,35 @@ const Contact: React.FC = () => {
           <div className="lg:w-1/3 space-y-10 order-2 lg:order-1">
             <div>
                 <h3 className="text-2xl font-serif mb-4 text-primary">Studio</h3>
-                <p className="text-muted leading-relaxed font-light text-sm">
+                <p className="text-secondary leading-relaxed font-light text-sm">
                 We reply to all inquiries within 24 hours.
                 </p>
             </div>
             
             <div className="space-y-8">
               <div className="flex items-start">
-                <div className="w-8">
+                <div className="w-8 mt-1">
                     <MapPin className="w-5 h-5 text-secondary" />
                 </div>
                 <div>
                   <h5 className="font-bold text-primary text-xs uppercase tracking-widest mb-1">Location</h5>
-                  <p className="text-muted text-sm font-light">{CONTACT_INFO.location}</p>
+                  <p className="text-secondary text-sm font-light">{CONTACT_INFO.location}</p>
                 </div>
               </div>
               <div className="flex items-start">
-                <div className="w-8">
+                <div className="w-8 mt-1">
                     <Mail className="w-5 h-5 text-secondary" />
                 </div>
                 <div>
                   <h5 className="font-bold text-primary text-xs uppercase tracking-widest mb-1">Email</h5>
-                  <a href={`mailto:${CONTACT_INFO.email}`} className="text-muted text-sm font-light hover:text-primary transition-colors">{CONTACT_INFO.email}</a>
+                  <a href={`mailto:${CONTACT_INFO.email}`} className="text-secondary text-sm font-light hover:text-primary transition-colors">{CONTACT_INFO.email}</a>
                 </div>
               </div>
             </div>
           </div>
 
           {/* Form */}
-          <div className="lg:w-2/3 bg-surface p-6 md:p-14 border border-primary/5 order-1 lg:order-2 rounded-sm">
+          <div className="lg:w-2/3 bg-white p-6 md:p-14 border border-accent order-1 lg:order-2 rounded-sm shadow-sm">
             <form onSubmit={handleSubmit(onSubmit)} className="space-y-8">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                 <div className="relative">
@@ -152,13 +152,12 @@ const Contact: React.FC = () => {
                   <div className="relative">
                     <select 
                       {...register('type')}
-                      className="w-full px-0 py-3 bg-transparent border-b border-primary/20 focus:border-primary outline-none transition-colors text-primary appearance-none rounded-none"
+                      className="w-full px-4 py-3 bg-surface border border-accent focus:border-primary focus:ring-1 focus:ring-slate-100 outline-none transition-colors text-primary appearance-none rounded-sm"
                     >
                       <option value="wedding">Wedding / Elopement</option>
                       <option value="portrait">Portrait Session</option>
                       <option value="commercial">Commercial / Brand</option>
                     </select>
-                    {/* Custom arrow could go here */}
                   </div>
                 </div>
               </div>
