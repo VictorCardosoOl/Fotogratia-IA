@@ -84,7 +84,7 @@ const Services: React.FC = () => {
             <button
               key={cat}
               onClick={() => setFilter(cat)}
-              className={`relative px-4 py-2 text-[10px] md:text-xs uppercase tracking-widest font-bold transition-colors duration-500 z-10 ${
+              className={`relative px-4 py-2 text-micro uppercase tracking-widest font-bold transition-colors duration-500 z-10 ${
                 filter === cat ? 'text-primary' : 'text-secondary hover:text-primary'
               }`}
             >
@@ -102,7 +102,7 @@ const Services: React.FC = () => {
 
         <motion.div 
             layout
-            className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-start max-w-6xl mx-auto"
+            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 items-start max-w-6xl mx-auto"
         >
           <AnimatePresence mode="popLayout">
             {filteredServices.map((service, index) => {

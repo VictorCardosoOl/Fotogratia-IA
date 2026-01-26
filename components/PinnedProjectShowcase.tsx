@@ -51,8 +51,6 @@ const PinnedProjectShowcase: React.FC = () => {
     useGSAP(() => {
         if (!containerRef.current) return;
 
-        // Reduced the scroll length from 100% per item to 65% per item.
-        // This makes the transition happen with less scrolling effort.
         ScrollTrigger.create({
             trigger: containerRef.current,
             start: "top top",
@@ -71,7 +69,7 @@ const PinnedProjectShowcase: React.FC = () => {
     }, { scope: containerRef });
 
     return (
-        <section ref={containerRef} className="relative h-screen w-full overflow-hidden bg-background">
+        <section ref={containerRef} className="relative h-[100dvh] w-full overflow-hidden bg-background">
             {PROJECTS.map((project, index) => (
                 <div 
                     key={project.id}
@@ -88,7 +86,6 @@ const PinnedProjectShowcase: React.FC = () => {
                                 index === activeIndex ? 'scale-105' : 'scale-110'
                             } opacity-60 grayscale-[30%]`}
                         />
-                        {/* Overlay to ensure text readability on light or dark images */}
                         <div className="absolute inset-0 bg-black/40" />
                     </div>
 
@@ -100,18 +97,18 @@ const PinnedProjectShowcase: React.FC = () => {
                             index === activeIndex ? 'translate-y-0 opacity-100' : 'translate-y-20 opacity-0'
                         }`}>
                             <div className="flex items-center gap-4 mb-6">
-                                <span className="text-white/90 text-sm font-bold tracking-widest uppercase">{project.category}</span>
+                                <span className="text-white/90 text-xs font-bold tracking-widest uppercase">{project.category}</span>
                                 <div className="h-px w-12 bg-white/40" />
-                                <span className="text-white/60 text-sm font-mono">{project.year}</span>
+                                <span className="text-white/60 text-xs font-mono">{project.year}</span>
                             </div>
                             
-                            <h2 className="text-6xl md:text-8xl font-serif italic text-white leading-[0.9] mb-8 drop-shadow-lg">
+                            <h2 className="text-4xl md:text-6xl lg:text-8xl font-serif italic text-white leading-[1] md:leading-[0.9] mb-8 drop-shadow-lg">
                                 {project.title}
                             </h2>
                             
                             <button 
                                 onClick={() => navigate('/portfolio')}
-                                className="group flex items-center gap-4 text-white text-sm uppercase tracking-[0.2em] hover:text-accent transition-colors"
+                                className="group flex items-center gap-4 text-white text-xs uppercase tracking-[0.2em] hover:text-accent transition-colors"
                             >
                                 View Case Study
                                 <span className="w-8 h-8 rounded-full border border-white/30 flex items-center justify-center group-hover:border-accent group-hover:bg-accent transition-all duration-300">
@@ -120,11 +117,10 @@ const PinnedProjectShowcase: React.FC = () => {
                             </button>
                         </div>
 
-                        {/* Foreground Image */}
-                        <div className={`hidden md:block w-[400px] h-[500px] relative transition-all duration-1000 ease-[0.22,1,0.36,1] ${
+                        {/* Foreground Image - Hidden on mobile for space */}
+                        <div className={`hidden lg:block w-[350px] xl:w-[400px] aspect-[4/5] relative transition-all duration-1000 ease-[0.22,1,0.36,1] ${
                             index === activeIndex ? 'translate-y-0 opacity-100' : '-translate-y-20 opacity-0'
                         }`}>
-                            {/* Accent block */}
                             <div className="absolute inset-0 bg-surface translate-x-4 translate-y-4 shadow-lg" />
                             <img 
                                 src={project.imageFg} 
@@ -136,8 +132,8 @@ const PinnedProjectShowcase: React.FC = () => {
                     </div>
                     
                     {/* Progress Indicator */}
-                    <div className="absolute bottom-10 left-10 flex gap-2">
-                         <span className="text-6xl font-serif text-white/30">0{index + 1}</span>
+                    <div className="absolute bottom-6 md:bottom-10 left-6 md:left-10 flex gap-2">
+                         <span className="text-4xl md:text-6xl font-serif text-white/30">0{index + 1}</span>
                     </div>
                 </div>
             ))}

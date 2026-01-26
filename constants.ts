@@ -7,6 +7,12 @@ export const NAV_LINKS: NavLink[] = [
   { label: 'Contact', path: '/contact' },
 ];
 
+export const SOCIAL_LINKS = [
+  { label: 'Instagram', url: 'https://instagram.com/lumina', id: 'ig' },
+  { label: 'Vimeo', url: 'https://vimeo.com/lumina', id: 'vim' },
+  { label: 'Pinterest', url: 'https://pinterest.com/lumina', id: 'pin' }
+];
+
 export const PHOTOS: Photo[] = [
   { id: '1', url: 'https://picsum.photos/800/1200?random=1', title: 'Eternal Vows', category: 'wedding' },
   { id: '2', url: 'https://picsum.photos/800/800?random=2', title: 'Urban Solitude', category: 'portrait' },
@@ -70,6 +76,5 @@ export const TESTIMONIALS: Testimonial[] = [
 export const CONTACT_INFO = {
   email: 'hello@lumina.studio',
   phone: '+1 (555) 123-4567',
-  instagram: '@luminastudio',
   location: 'New York, NY & Available Worldwide'
 };

@@ -30,10 +30,8 @@ const Home: React.FC = () => {
   useGSAP(() => {
     if (!heroBgRef.current || !heroTextRef.current) return;
 
-    // 1. Initial State (Cinematic Opener)
     gsap.set(heroBgRef.current, { scale: 1.3, filter: "blur(8px)" });
     
-    // 2. Reveal Animation
     gsap.to(heroBgRef.current, { 
       scale: 1.1, 
       filter: "blur(0px)", 
@@ -41,8 +39,6 @@ const Home: React.FC = () => {
       ease: "power2.inOut" 
     });
 
-    // 3. Parallax with "Weight" (Delayed Scrub)
-    // The scrub: 1.5 creates that "catching up" feeling (lag) for the background
     gsap.to(heroBgRef.current, {
       yPercent: 25, 
       ease: "none",
@@ -54,7 +50,6 @@ const Home: React.FC = () => {
       }
     });
 
-    // 4. Text Parallax (Differential speed, lighter weight)
     gsap.to(heroTextRef.current, {
       yPercent: 50,
       opacity: 0,
@@ -71,11 +66,10 @@ const Home: React.FC = () => {
 
   return (
     <Layout>
-      <div ref={containerRef} className="bg-background">
+      <div ref={containerRef} className="bg-background w-full overflow-hidden">
         
-        {/* Hero Section */}
-        <section ref={heroRef} className="relative h-screen w-full flex items-center justify-center overflow-hidden bg-dark">
-          {/* Background Layer */}
+        {/* Hero Section - Using dvh for real mobile height */}
+        <section ref={heroRef} className="relative h-[100dvh] w-full flex items-center justify-center overflow-hidden bg-dark">
           <div className="absolute inset-0 z-0 pointer-events-none overflow-hidden">
             <div ref={heroBgRef} className="w-full h-full will-change-transform">
               <img 
@@ -89,26 +83,25 @@ const Home: React.FC = () => {
             <div className="absolute inset-0 bg-vignette mix-blend-multiply" />
           </div>
 
-          {/* Text Layer */}
           <div 
               ref={heroTextRef}
-              className="relative z-10 px-6 w-full max-w-7xl mx-auto flex flex-col items-center md:items-start will-change-transform"
+              className="relative z-10 px-4 md:px-6 w-full max-w-7xl mx-auto flex flex-col items-center md:items-start will-change-transform"
           >
               <div className="text-center md:text-left text-white">
-                  <div className="mb-8 flex justify-center md:justify-start items-center gap-4 overflow-hidden">
-                      <div className="h-px w-12 bg-white/50 origin-left" />
-                      <span className="text-white/80 uppercase tracking-[0.4em] text-[10px] font-semibold">
+                  <div className="mb-6 md:mb-8 flex justify-center md:justify-start items-center gap-4 overflow-hidden">
+                      <div className="h-px w-8 md:w-12 bg-white/50 origin-left" />
+                      <span className="text-white/80 uppercase tracking-[0.4em] text-micro font-semibold">
                           Visual Narratives
                       </span>
                   </div>
                   
-                  <div className="mb-10 mix-blend-screen overflow-hidden">
-                     <SplitText tag="h1" delay={0.3} className="text-5xl md:text-8xl lg:text-9xl font-serif font-thin italic tracking-tighter text-white leading-[0.9]">
+                  <div className="mb-8 md:mb-10 mix-blend-screen overflow-hidden">
+                     <SplitText tag="h1" delay={0.3} className="text-fluid-h1 font-serif font-thin italic tracking-tighter text-white leading-[0.9]">
                         Shadow & Light
                      </SplitText>
                   </div>
                   
-                  <p className="text-sm md:text-lg text-white/70 mb-12 max-w-md font-light leading-relaxed tracking-wide">
+                  <p className="text-sm md:text-lg text-white/70 mb-10 md:mb-12 max-w-md font-light leading-relaxed tracking-wide mx-auto md:mx-0">
                      We don't just take photos. We curate moments of raw emotion, framing the unscripted beauty of existence.
                   </p>
                   
@@ -130,9 +123,9 @@ const Home: React.FC = () => {
         {/* Brand Bar */}
         <section className="bg-background py-16 border-b border-muted relative z-20">
           <div className="container">
-            <div className="flex flex-wrap justify-center gap-12 md:gap-24 opacity-40 hover:opacity-100 transition-opacity duration-700">
+            <div className="flex flex-wrap justify-center gap-x-12 gap-y-6 opacity-40 hover:opacity-100 transition-opacity duration-700">
                {['VOGUE', 'KINFOLK', 'CEREAL', 'AESTHETICA'].map(brand => (
-                   <span key={brand} className="text-sm font-sans font-medium tracking-[0.3em] text-primary cursor-default hover:text-accent transition-colors duration-500">{brand}</span>
+                   <span key={brand} className="text-xs font-sans font-medium tracking-[0.3em] text-primary cursor-default hover:text-accent transition-colors duration-500">{brand}</span>
                ))}
             </div>
           </div>
@@ -142,18 +135,18 @@ const Home: React.FC = () => {
         <PinnedProjectShowcase />
 
         {/* Manifesto Section */}
-        <section className="py-32 bg-background relative z-20">
+        <section className="py-24 md:py-32 bg-background relative z-20">
           <div className="container">
-            <div className="grid grid-cols-1 md:grid-cols-12 gap-12">
-              <div className="md:col-span-4">
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-20">
+              <div className="lg:col-span-4">
                   <SectionTitle subtitle="Manifesto" title="The Art of Observation" alignment="left" />
               </div>
-              <div className="md:col-span-8 md:pl-12 pt-8">
+              <div className="lg:col-span-8 lg:pl-12 pt-8">
                   <div className="text-xl md:text-3xl font-serif text-primary/80 leading-relaxed font-light italic">
                       "In a world of noise, we seek the silence. The subtle glance, the texture of fabric, the way light falls on a shoulder."
                   </div>
                   
-                  <div className="manifesto-grid grid grid-cols-1 md:grid-cols-3 gap-8 mt-20">
+                  <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mt-16 md:mt-20">
                       {[
                       { icon: Film, title: "Analog Soul", desc: "Embracing grain, blur, and imperfection." },
                       { icon: Aperture, title: "Natural Light", desc: "Sculpting with available illumination." },
@@ -161,10 +154,10 @@ const Home: React.FC = () => {
                       ].map((feature, idx) => (
                       <div 
                           key={idx} 
-                          className="feature-card border-l border-muted pl-6 group hover:border-accent transition-colors duration-500"
+                          className="border-l border-muted pl-6 group hover:border-accent transition-colors duration-500"
                       >
                           <feature.icon className="w-5 h-5 text-secondary mb-4 group-hover:text-primary transition-colors" />
-                          <h3 className="text-primary font-semibold tracking-widest text-xs uppercase mb-2">{feature.title}</h3>
+                          <h3 className="text-primary font-semibold tracking-widest text-micro uppercase mb-2">{feature.title}</h3>
                           <p className="text-secondary text-sm font-light leading-relaxed">{feature.desc}</p>
                       </div>
                       ))}
@@ -178,7 +171,7 @@ const Home: React.FC = () => {
         <HorizontalGallery />
 
         {/* Services Teaser */}
-        <section className="py-32 bg-surface relative border-t border-muted z-20">
+        <section className="py-24 md:py-32 bg-surface relative border-t border-muted z-20">
           <div className="container relative z-10">
               <div className="max-w-4xl mx-auto">
                   <SectionTitle subtitle="Offerings" title="Commission" />
@@ -187,7 +180,7 @@ const Home: React.FC = () => {
                       {SERVICES.map((s) => (
                           <div
                               key={s.id}
-                              className="group border-b border-muted pb-12 cursor-pointer hover:border-primary/30 transition-colors duration-500"
+                              className="group border-b border-muted pb-8 md:pb-12 cursor-pointer hover:border-primary/30 transition-colors duration-500"
                               onClick={() => navigate('/services')}
                           >
                               <div className="flex flex-col md:flex-row md:items-baseline justify-between mb-4">
@@ -206,8 +199,8 @@ const Home: React.FC = () => {
         <section className="py-32 bg-background z-20 relative">
           <div className="container text-center max-w-2xl">
             <Reveal width="100%">
-              <p className="text-secondary text-sm tracking-widest uppercase mb-6">Availability 2024 / 2025</p>
-              <h2 className="text-5xl md:text-7xl font-serif italic mb-12 text-primary">
+              <p className="text-secondary text-micro tracking-widest uppercase mb-6">Availability 2024 / 2025</p>
+              <h2 className="text-fluid-h2 font-serif italic mb-12 text-primary">
                   Tell your story.
               </h2>
             </Reveal>

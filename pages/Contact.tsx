@@ -1,9 +1,9 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import Layout from '../components/Layout';
 import Button from '../components/Button';
 import { CONTACT_INFO } from '../constants';
-import { Mail, Phone, MapPin, AlertCircle } from 'lucide-react';
+import { Mail, Phone, MapPin, AlertCircle, CheckCircle } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 
 type FormData = {
@@ -16,15 +16,23 @@ type FormData = {
 };
 
 const Contact: React.FC = () => {
+  const [isSuccess, setIsSuccess] = useState(false);
   const { register, handleSubmit, formState: { errors, isSubmitting }, reset } = useForm<FormData>({
     mode: 'onChange' 
   });
 
   const onSubmit = async (data: FormData) => {
-    await new Promise(resolve => setTimeout(resolve, 1000));
-    console.log('Form Data:', data);
-    alert('Thank you! Your message has been sent.');
-    reset();
+    try {
+      await new Promise(resolve => setTimeout(resolve, 1000));
+      // In production, integrate actual API call here.
+      setIsSuccess(true);
+      reset();
+      
+      // Reset success message after 5 seconds
+      setTimeout(() => setIsSuccess(false), 5000);
+    } catch (error) {
+      console.error("Submission error", error);
+    }
   };
 
   const getInputClass = (hasError: boolean) => 
@@ -80,7 +88,21 @@ const Contact: React.FC = () => {
           </div>
 
           {/* Form */}
-          <div className="lg:w-2/3 bg-white p-6 md:p-14 border border-accent order-1 lg:order-2 rounded-sm shadow-sm">
+          <div className="lg:w-2/3 bg-white p-6 md:p-14 border border-accent order-1 lg:order-2 rounded-sm shadow-sm relative">
+             <AnimatePresence>
+                {isSuccess && (
+                  <motion.div 
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0 }}
+                    className="absolute top-0 left-0 right-0 z-20 bg-emerald-50 border-b border-emerald-200 p-4 flex items-center justify-center text-emerald-800"
+                  >
+                    <CheckCircle className="w-5 h-5 mr-2" />
+                    <span className="text-sm font-medium">Message sent successfully. We'll be in touch soon.</span>
+                  </motion.div>
+                )}
+             </AnimatePresence>
+
             <form onSubmit={handleSubmit(onSubmit)} className="space-y-8">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                 <div className="relative">

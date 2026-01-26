@@ -18,15 +18,16 @@
               DEFAULT: '1rem',
               sm: '1.5rem',
               md: '2rem',
-              lg: '2.5rem',
-              xl: '3rem',
+              lg: '3rem',
+              xl: '4rem',
+              '2xl': '5rem',
             },
             screens: {
               sm: '640px',
               md: '768px',
               lg: '1024px',
               xl: '1280px',
-              '2xl': '1440px',
+              '2xl': '1536px',
             },
           },
           extend: {
@@ -34,20 +35,32 @@
               sans: ['Manrope', 'sans-serif'],
               serif: ['Cormorant Garamond', 'serif'],
             },
+            fontSize: {
+              'fluid-h1': 'clamp(3rem, 5vw + 1rem, 7.5rem)',
+              'fluid-h2': 'clamp(2.5rem, 4vw + 1rem, 5rem)',
+              'fluid-h3': 'clamp(1.75rem, 3vw, 3.5rem)',
+              'micro': ['0.625rem', { lineHeight: '1rem', letterSpacing: '0.2em' }], // 10px uppercase
+            },
             colors: {
-              // 'Cool Modern' Palette - Elegant, Sophisticated, Slate & Cool Grays
-              primary: '#1E293B', // Slate 800 - Main text
-              secondary: '#64748B', // Slate 500 - Secondary text
-              accent: '#475569', // Slate 600 - Hover states / Interaction
-              background: '#F8FAFC', // Slate 50 - Main Background (Cool White)
-              surface: '#F1F5F9', // Slate 100 - Cards/Sections
-              dark: '#0F172A', // Slate 900 - Dark backgrounds
-              muted: '#CBD5E1', // Slate 300 - Borders/Dividers
+              primary: '#1E293B', 
+              secondary: '#64748B', 
+              accent: '#475569', 
+              background: '#F8FAFC', 
+              surface: '#F1F5F9', 
+              dark: '#0F172A', 
+              muted: '#CBD5E1', 
               white: '#FFFFFF',
-              black: '#020617' // Slate 950
+              black: '#020617'
             },
             backgroundImage: {
               'vignette': 'radial-gradient(circle, rgba(15, 23, 42, 0) 50%, rgba(15, 23, 42, 0.4) 100%)',
+            },
+            zIndex: {
+              'negative': '-1',
+              'sticky': '40',
+              'header': '50',
+              'modal': '60',
+              'cursor': '100',
             }
           }
         }
@@ -64,49 +77,27 @@
         width: 100%;
         min-height: 100vh;
         overflow-x: hidden;
-        position: relative;
         -webkit-font-smoothing: antialiased;
         -moz-osx-font-smoothing: grayscale;
       }
       
-      .text-fluid-h1 { font-size: clamp(3.5rem, 6vw + 1rem, 7rem); }
-      .text-fluid-h2 { font-size: clamp(2.5rem, 5vw + 1rem, 5rem); }
-      .text-fluid-h3 { font-size: clamp(1.75rem, 3.5vw, 3rem); }
-      
-      /* Subtle Digital Noise - Reduced opacity for cleaner look */
+      /* Reduced opacity noise for performance */
       .bg-noise {
         position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
+        inset: 0;
         pointer-events: none;
-        z-index: 50; 
-        opacity: 0.03;
+        z-index: 9999; 
+        opacity: 0.025;
         background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
         mix-blend-mode: multiply;
       }
 
-      /* Custom scrollbar - Cool Slate */
-      ::-webkit-scrollbar {
-        width: 6px;
-      }
-      ::-webkit-scrollbar-track {
-        background: #F8FAFC; 
-      }
-      ::-webkit-scrollbar-thumb {
-        background: #CBD5E1; 
-        border-radius: 0px;
-      }
-      ::-webkit-scrollbar-thumb:hover {
-        background: #64748B; 
-      }
+      ::-webkit-scrollbar { width: 6px; }
+      ::-webkit-scrollbar-track { background: #F8FAFC; }
+      ::-webkit-scrollbar-thumb { background: #CBD5E1; }
+      ::-webkit-scrollbar-thumb:hover { background: #64748B; }
       
-      /* Cinematic Selection */
-      ::selection {
-        background: #1E293B;
-        color: #F8FAFC;
-      }
+      ::selection { background: #1E293B; color: #F8FAFC; }
     </style>
   <script type="importmap">
 {
