@@ -69,7 +69,7 @@ const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
                 onClick={() => navigate('/contact')}
                 className={`${isScrolled ? 'text-primary' : 'text-primary'} hover:text-accent font-serif italic text-base capitalize`}
               >
-                Inquire
+                Contato
               </Button>
             </div>
             
@@ -101,7 +101,7 @@ const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
           </RouterNavLink>
         ))}
         <Button variant="outline" onClick={() => { handleMobileNavClick(); navigate('/contact'); }} className="mt-8 border-white text-white">
-            Start Project
+            Iniciar Projeto
         </Button>
       </div>
 
@@ -123,13 +123,13 @@ const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
               <div>
                   <h3 className="text-5xl md:text-9xl font-serif italic font-light mb-8 text-primary/10 select-none">LUMINA</h3>
                   <p className="text-secondary text-sm leading-relaxed max-w-sm font-light tracking-wide">
-                  A visual storytelling studio. Based in light, rooted in emotion. We document the unscripted and the profound.
+                  Um estúdio de narrativa visual. Baseado na luz, enraizado na emoção. Documentamos o não roteirizado e o profundo.
                   </p>
               </div>
             </div>
             
             <div className="md:col-span-3 lg:col-span-3 md:col-start-8 lg:col-start-8 flex flex-col justify-center">
-              <h4 className="text-micro font-bold uppercase mb-8 text-primary/40">Studio</h4>
+              <h4 className="text-micro font-bold uppercase mb-8 text-primary/40">Estúdio</h4>
               <div className="space-y-6 text-sm font-light tracking-wide flex flex-col items-start">
                 <p className="text-primary">{CONTACT_INFO.location}</p>
                 <a href={`mailto:${CONTACT_INFO.email}`} className="block text-primary hover:text-accent transition-colors">{CONTACT_INFO.email}</a>
@@ -158,8 +158,8 @@ const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
           <div className="container mt-12 pt-8 border-t border-muted/50 flex flex-col md:flex-row justify-between items-center relative z-10 gap-4 opacity-60">
             <p className="text-micro uppercase text-secondary">&copy; {new Date().getFullYear()} Lumina. Est. 2024</p>
             <div className="flex space-x-8 text-micro uppercase text-secondary">
-              <button className="hover:text-primary transition-colors">Privacy</button>
-              <button className="hover:text-primary transition-colors">Imprint</button>
+              <button className="hover:text-primary transition-colors">Privacidade</button>
+              <button className="hover:text-primary transition-colors">Termos</button>
             </div>
           </div>
         </motion.div>

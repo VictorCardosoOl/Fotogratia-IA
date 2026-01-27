@@ -1,10 +1,10 @@
 import { Photo, Service, Testimonial, NavLink } from './types';
 
 export const NAV_LINKS: NavLink[] = [
-  { label: 'Home', path: '/' },
-  { label: 'Portfolio', path: '/portfolio' },
-  { label: 'Services', path: '/services' },
-  { label: 'Contact', path: '/contact' },
+  { label: 'Início', path: '/' },
+  { label: 'Portfólio', path: '/portfolio' },
+  { label: 'Serviços', path: '/services' },
+  { label: 'Contato', path: '/contact' },
 ];
 
 export const SOCIAL_LINKS = [
@@ -14,67 +14,67 @@ export const SOCIAL_LINKS = [
 ];
 
 export const PHOTOS: Photo[] = [
-  { id: '1', url: 'https://picsum.photos/800/1200?random=1', title: 'Eternal Vows', category: 'wedding' },
-  { id: '2', url: 'https://picsum.photos/800/800?random=2', title: 'Urban Solitude', category: 'portrait' },
-  { id: '3', url: 'https://picsum.photos/800/1000?random=3', title: 'Brand Essence', category: 'commercial' },
-  { id: '4', url: 'https://picsum.photos/800/1200?random=4', title: 'Golden Hour', category: 'wedding' },
-  { id: '5', url: 'https://picsum.photos/800/600?random=5', title: 'Executive Presence', category: 'portrait' },
-  { id: '6', url: 'https://picsum.photos/800/1200?random=6', title: 'Fashion Forward', category: 'editorial' },
-  { id: '7', url: 'https://picsum.photos/800/800?random=7', title: 'Product Launch', category: 'commercial' },
-  { id: '8', url: 'https://picsum.photos/800/1000?random=8', title: 'Intimate Moments', category: 'wedding' },
-  { id: '9', url: 'https://picsum.photos/800/1200?random=9', title: 'Studio Session', category: 'portrait' },
+  { id: '1', url: 'https://picsum.photos/800/1200?random=1', title: 'Votos Eternos', category: 'wedding' },
+  { id: '2', url: 'https://picsum.photos/800/800?random=2', title: 'Solidão Urbana', category: 'portrait' },
+  { id: '3', url: 'https://picsum.photos/800/1000?random=3', title: 'Essência da Marca', category: 'commercial' },
+  { id: '4', url: 'https://picsum.photos/800/1200?random=4', title: 'Hora Dourada', category: 'wedding' },
+  { id: '5', url: 'https://picsum.photos/800/600?random=5', title: 'Presença Executiva', category: 'portrait' },
+  { id: '6', url: 'https://picsum.photos/800/1200?random=6', title: 'Moda & Conceito', category: 'editorial' },
+  { id: '7', url: 'https://picsum.photos/800/800?random=7', title: 'Lançamento de Produto', category: 'commercial' },
+  { id: '8', url: 'https://picsum.photos/800/1000?random=8', title: 'Momentos Íntimos', category: 'wedding' },
+  { id: '9', url: 'https://picsum.photos/800/1200?random=9', title: 'Sessão em Estúdio', category: 'portrait' },
 ];
 
 export const SERVICES: Service[] = [
   {
     id: 'wedding',
-    title: 'Wedding Collections',
-    price: 'Starting at $2,500',
-    description: 'Documenting your love story with cinematic elegance and authentic emotion.',
-    features: ['8+ Hours Coverage', 'Second Shooter', 'Online Gallery', 'Fine Art Album'],
-    cta: 'Inquire Availability'
+    title: 'Coleção Casamentos',
+    price: 'A partir de R$ 5.000',
+    description: 'Documentando sua história de amor com elegância cinematográfica e emoção autêntica.',
+    features: ['8+ Horas de Cobertura', 'Segundo Fotógrafo', 'Galeria Online', 'Álbum Fine Art'],
+    cta: 'Consultar Disponibilidade'
   },
   {
     id: 'portrait',
-    title: 'Portrait Sessions',
-    price: 'Starting at $450',
-    description: 'Capturing your true essence in studio or on location.',
-    features: ['1-2 Hours Session', '2 Outfit Changes', '20 Retouched Images', 'Print Release'],
-    cta: 'Book Session'
+    title: 'Sessões de Retrato',
+    price: 'A partir de R$ 900',
+    description: 'Capturando sua verdadeira essência em estúdio ou locação externa.',
+    features: ['Sessão de 1-2 Horas', '2 Trocas de Roupa', '20 Imagens Retocadas', 'Direitos de Impressão'],
+    cta: 'Agendar Sessão'
   },
   {
     id: 'commercial',
-    title: 'Brand Photography',
-    price: 'Custom Quote',
-    description: 'Elevating your brand visual identity to attract your ideal clients.',
-    features: ['Strategy Call', 'Full Day Shooting', 'Commercial Usage Rights', 'Social Media Cuts'],
-    cta: 'Request Proposal'
+    title: 'Fotografia de Marca',
+    price: 'Sob Medida',
+    description: 'Elevando a identidade visual da sua marca para atrair os clientes ideais.',
+    features: ['Reunião de Estratégia', 'Diária Completa', 'Direitos de Uso Comercial', 'Cortes para Redes Sociais'],
+    cta: 'Solicitar Proposta'
   }
 ];
 
 export const TESTIMONIALS: Testimonial[] = [
   {
     id: '1',
-    name: 'Sarah & James',
-    role: 'Wedding Clients',
-    text: "The photos are absolutely breathtaking. They didn't just capture how we looked, but how we felt. The entire experience was seamless and professional."
+    name: 'Sarah & Tiago',
+    role: 'Casamento',
+    text: "As fotos ficaram absolutamente deslumbrantes. Eles não capturaram apenas como estávamos, mas como nos sentimos. Toda a experiência foi fluida e profissional."
   },
   {
     id: '2',
-    name: 'Elena Rodriguez',
-    role: 'Creative Director',
-    text: "An incredible eye for detail. The commercial campaign exceeded our KPIs and gave our brand the premium look we were striving for."
+    name: 'Elena Rodrigues',
+    role: 'Diretora Criativa',
+    text: "Um olho incrível para detalhes. A campanha comercial superou nossos KPIs e deu à nossa marca o visual premium que buscávamos."
   },
   {
     id: '3',
-    name: 'Michael Chen',
+    name: 'Miguel Chen',
     role: 'CEO, TechFlow',
-    text: "Professional, efficient, and the results speak for themselves. The headshots have completely transformed our executive team page."
+    text: "Profissional, eficiente e os resultados falam por si. Os retratos corporativos transformaram completamente a página da nossa equipe."
   }
 ];
 
 export const CONTACT_INFO = {
-  email: 'hello@lumina.studio',
-  phone: '+1 (555) 123-4567',
-  location: 'New York, NY & Available Worldwide'
+  email: 'ola@lumina.studio',
+  phone: '+55 (11) 99999-9999',
+  location: 'São Paulo, SP & Disponível Globalmente'
 };

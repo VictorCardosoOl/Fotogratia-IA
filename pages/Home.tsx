@@ -91,24 +91,24 @@ const Home: React.FC = () => {
                   <div className="mb-6 md:mb-8 flex justify-center md:justify-start items-center gap-4 overflow-hidden">
                       <div className="h-px w-8 md:w-12 bg-white/50 origin-left" />
                       <span className="text-white/80 uppercase tracking-[0.4em] text-micro font-semibold">
-                          Visual Narratives
+                          Narrativas Visuais
                       </span>
                   </div>
                   
                   <div className="mb-8 md:mb-10 mix-blend-screen overflow-hidden">
                      <SplitText tag="h1" delay={0.3} className="text-fluid-h1 font-serif font-thin italic tracking-tighter text-white leading-[0.9]">
-                        Shadow & Light
+                        Luz & Sombra
                      </SplitText>
                   </div>
                   
                   <p className="text-sm md:text-lg text-white/70 mb-10 md:mb-12 max-w-md font-light leading-relaxed tracking-wide mx-auto md:mx-0">
-                     We don't just take photos. We curate moments of raw emotion, framing the unscripted beauty of existence.
+                     Não apenas tiramos fotos. Curamos momentos de emoção crua, enquadrando a beleza não roteirizada da existência.
                   </p>
                   
                   <div className="flex flex-col sm:flex-row items-center gap-8 pointer-events-auto">
                     <Magnetic strength={40}>
                       <Button onClick={() => navigate('/portfolio')} className="border-b border-white hover:border-accent text-white pb-1 px-0 rounded-none bg-transparent hover:bg-transparent tracking-widest text-xs">
-                          Enter Gallery
+                          Acessar Galeria
                       </Button>
                     </Magnetic>
                   </div>
@@ -139,18 +139,18 @@ const Home: React.FC = () => {
           <div className="container">
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-20">
               <div className="lg:col-span-4">
-                  <SectionTitle subtitle="Manifesto" title="The Art of Observation" alignment="left" />
+                  <SectionTitle subtitle="Manifesto" title="A Arte da Observação" alignment="left" />
               </div>
               <div className="lg:col-span-8 lg:pl-12 pt-8">
                   <div className="text-xl md:text-3xl font-serif text-primary/80 leading-relaxed font-light italic">
-                      "In a world of noise, we seek the silence. The subtle glance, the texture of fabric, the way light falls on a shoulder."
+                      "Em um mundo de ruído, buscamos o silêncio. O olhar sutil, a textura do tecido, a forma como a luz cai sobre um ombro."
                   </div>
                   
                   <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mt-16 md:mt-20">
                       {[
-                      { icon: Film, title: "Analog Soul", desc: "Embracing grain, blur, and imperfection." },
-                      { icon: Aperture, title: "Natural Light", desc: "Sculpting with available illumination." },
-                      { icon: Frame, title: "Composition", desc: "Drawing the eye to what matters." }
+                      { icon: Film, title: "Alma Analógica", desc: "Abraçando o grão, o desfoque e a imperfeição." },
+                      { icon: Aperture, title: "Luz Natural", desc: "Esculpindo com a iluminação disponível." },
+                      { icon: Frame, title: "Composição", desc: "Guiando o olhar para o que importa." }
                       ].map((feature, idx) => (
                       <div 
                           key={idx} 
@@ -174,7 +174,7 @@ const Home: React.FC = () => {
         <section className="py-24 md:py-32 bg-surface relative border-t border-muted z-20">
           <div className="container relative z-10">
               <div className="max-w-4xl mx-auto">
-                  <SectionTitle subtitle="Offerings" title="Commission" />
+                  <SectionTitle subtitle="Ofertas" title="Comissões" />
                   
                   <div className="mt-16 space-y-12">
                       {SERVICES.map((s) => (
@@ -199,15 +199,15 @@ const Home: React.FC = () => {
         <section className="py-32 bg-background z-20 relative">
           <div className="container text-center max-w-2xl">
             <Reveal width="100%">
-              <p className="text-secondary text-micro tracking-widest uppercase mb-6">Availability 2024 / 2025</p>
+              <p className="text-secondary text-micro tracking-widest uppercase mb-6">Agenda 2024 / 2025</p>
               <h2 className="text-fluid-h2 font-serif italic mb-12 text-primary">
-                  Tell your story.
+                  Conte sua história.
               </h2>
             </Reveal>
             <div className="flex justify-center">
               <Magnetic>
                   <Button onClick={() => navigate('/contact')} variant="outline" className="border-primary/30 text-primary hover:border-primary hover:bg-primary hover:text-white">
-                      Start Conversation
+                      Iniciar Conversa
                   </Button>
               </Magnetic>
             </div>

@@ -46,9 +46,9 @@ const Contact: React.FC = () => {
     <Layout>
       <div className="pt-32 md:pt-40 pb-16 md:pb-20 bg-background text-primary relative">
         <div className="container text-center relative z-10">
-          <h1 className="text-fluid-h2 font-serif mb-6">Get in Touch</h1>
+          <h1 className="text-fluid-h2 font-serif mb-6">Entre em Contato</h1>
           <p className="text-secondary max-w-xl mx-auto font-light text-base md:text-lg">
-            We are currently accepting bookings for the 2024-2025 season.
+            Estamos aceitando agendamentos para a temporada 2024-2025.
           </p>
         </div>
       </div>
@@ -59,9 +59,9 @@ const Contact: React.FC = () => {
           {/* Contact Info */}
           <div className="lg:w-1/3 space-y-10 order-2 lg:order-1">
             <div>
-                <h3 className="text-2xl font-serif mb-4 text-primary">Studio</h3>
+                <h3 className="text-2xl font-serif mb-4 text-primary">Estúdio</h3>
                 <p className="text-secondary leading-relaxed font-light text-sm">
-                We reply to all inquiries within 24 hours.
+                Respondemos todas as solicitações em até 24 horas.
                 </p>
             </div>
             
@@ -71,7 +71,7 @@ const Contact: React.FC = () => {
                     <MapPin className="w-5 h-5 text-secondary" />
                 </div>
                 <div>
-                  <h5 className="font-bold text-primary text-xs uppercase tracking-widest mb-1">Location</h5>
+                  <h5 className="font-bold text-primary text-xs uppercase tracking-widest mb-1">Localização</h5>
                   <p className="text-secondary text-sm font-light">{CONTACT_INFO.location}</p>
                 </div>
               </div>
@@ -98,7 +98,7 @@ const Contact: React.FC = () => {
                     className="absolute top-0 left-0 right-0 z-20 bg-emerald-50 border-b border-emerald-200 p-4 flex items-center justify-center text-emerald-800"
                   >
                     <CheckCircle className="w-5 h-5 mr-2" />
-                    <span className="text-sm font-medium">Message sent successfully. We'll be in touch soon.</span>
+                    <span className="text-sm font-medium">Mensagem enviada com sucesso. Entraremos em contato em breve.</span>
                   </motion.div>
                 )}
              </AnimatePresence>
@@ -106,14 +106,14 @@ const Contact: React.FC = () => {
             <form onSubmit={handleSubmit(onSubmit)} className="space-y-8">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                 <div className="relative">
-                  <label className="block text-xs font-bold uppercase tracking-widest text-primary mb-3">Full Name</label>
+                  <label className="block text-xs font-bold uppercase tracking-widest text-primary mb-3">Nome Completo</label>
                   <input 
                     {...register('name', { 
-                      required: 'Name is required',
-                      minLength: { value: 2, message: 'Name must be at least 2 characters' }
+                      required: 'Nome é obrigatório',
+                      minLength: { value: 2, message: 'Nome deve ter pelo menos 2 caracteres' }
                     })}
                     className={getInputClass(!!errors.name)}
-                    placeholder="Jane Doe"
+                    placeholder="Seu Nome"
                   />
                   <AnimatePresence>
                     {errors.name && (
@@ -130,18 +130,18 @@ const Contact: React.FC = () => {
                   </AnimatePresence>
                 </div>
                 <div className="relative">
-                  <label className="block text-xs font-bold uppercase tracking-widest text-primary mb-3">Email Address</label>
+                  <label className="block text-xs font-bold uppercase tracking-widest text-primary mb-3">Email</label>
                   <input 
                     type="email"
                     {...register('email', { 
-                      required: 'Email is required',
+                      required: 'Email é obrigatório',
                       pattern: {
                         value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
-                        message: "Invalid email address"
+                        message: "Email inválido"
                       }
                     })}
                     className={getInputClass(!!errors.email)}
-                    placeholder="jane@example.com"
+                    placeholder="seu@email.com"
                   />
                   <AnimatePresence>
                     {errors.email && (
@@ -161,39 +161,39 @@ const Contact: React.FC = () => {
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                  <div>
-                  <label className="block text-xs font-bold uppercase tracking-widest text-primary mb-3">Phone</label>
+                  <label className="block text-xs font-bold uppercase tracking-widest text-primary mb-3">Telefone</label>
                   <input 
                     type="tel"
                     {...register('phone')}
                     className={getInputClass(false)} // Phone is optional in this schema
-                    placeholder="+1 (555) 000-0000"
+                    placeholder="+55 (11) 99999-9999"
                   />
                 </div>
                 <div>
-                  <label className="block text-xs font-bold uppercase tracking-widest text-primary mb-3">Service</label>
+                  <label className="block text-xs font-bold uppercase tracking-widest text-primary mb-3">Serviço</label>
                   <div className="relative">
                     <select 
                       {...register('type')}
                       className="w-full px-4 py-3 bg-surface border border-accent focus:border-primary focus:ring-1 focus:ring-slate-100 outline-none transition-colors text-primary appearance-none rounded-sm"
                     >
-                      <option value="wedding">Wedding / Elopement</option>
-                      <option value="portrait">Portrait Session</option>
-                      <option value="commercial">Commercial / Brand</option>
+                      <option value="wedding">Casamento / Elopement</option>
+                      <option value="portrait">Sessão de Retrato</option>
+                      <option value="commercial">Comercial / Marca</option>
                     </select>
                   </div>
                 </div>
               </div>
               
               <div className="relative">
-                <label className="block text-xs font-bold uppercase tracking-widest text-primary mb-3">Your Vision</label>
+                <label className="block text-xs font-bold uppercase tracking-widest text-primary mb-3">Sua Visão</label>
                 <textarea 
                   {...register('message', { 
-                    required: 'Please tell us a bit about your project',
-                    minLength: { value: 10, message: 'Message is too short' }
+                    required: 'Por favor, conte-nos um pouco sobre seu projeto',
+                    minLength: { value: 10, message: 'Mensagem muito curta' }
                   })}
                   rows={4}
                   className={`${getInputClass(!!errors.message)} resize-none`}
-                  placeholder="Tell us about your plans..."
+                  placeholder="Conte-nos sobre seus planos..."
                 />
                  <AnimatePresence>
                     {errors.message && (
@@ -211,7 +211,7 @@ const Contact: React.FC = () => {
               </div>
 
               <Button type="submit" fullWidth disabled={isSubmitting} className="mt-4">
-                {isSubmitting ? 'Sending...' : 'Send Message'}
+                {isSubmitting ? 'Enviando...' : 'Enviar Mensagem'}
               </Button>
             </form>
           </div>

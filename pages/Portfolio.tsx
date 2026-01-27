@@ -42,11 +42,11 @@ const Portfolio: React.FC = () => {
                 animate={{ opacity: 1 }}
                 className="text-micro uppercase tracking-[0.4em] text-secondary block mb-4"
               >
-                  Curated Works
+                  Trabalhos Curados
               </motion.span>
               <div className="overflow-hidden">
                 <SplitText tag="h1" className="text-fluid-h1 font-serif italic text-primary tracking-tighter">
-                    Archive
+                    Arquivo
                 </SplitText>
               </div>
           </div>
@@ -56,7 +56,7 @@ const Portfolio: React.FC = () => {
             transition={{ delay: 0.4 }}
             className="text-secondary max-w-xs text-sm font-light mt-8 md:mt-0 text-right"
           >
-            A collection of visual memories, processed with care and cinematic intent.
+            Uma coleção de memórias visuais, processadas com cuidado e intenção cinematográfica.
           </motion.p>
         </div>
       </div>
@@ -65,7 +65,7 @@ const Portfolio: React.FC = () => {
         <div className="container">
             
           <div className="flex flex-wrap gap-x-8 gap-y-4 mb-20 items-center">
-            <span className="text-secondary/50 text-micro uppercase tracking-widest mr-4">Filter By:</span>
+            <span className="text-secondary/50 text-micro uppercase tracking-widest mr-4">Filtrar Por:</span>
             <button
                 onClick={clearFilters}
                 className={`text-micro uppercase tracking-[0.2em] transition-all duration-300 border-b border-transparent ${
@@ -74,7 +74,7 @@ const Portfolio: React.FC = () => {
                     : 'text-secondary hover:text-primary'
                 }`}
             >
-                All
+                Todos
             </button>
 
             {CATEGORIES.map((cat) => {
@@ -142,8 +142,8 @@ const Portfolio: React.FC = () => {
             viewport={{ once: true }}
             className="mt-32 md:mt-40 text-center border-t border-primary/5 pt-20"
           >
-            <h3 className="text-fluid-h3 font-serif italic text-primary mb-6">Create with us.</h3>
-            <Button variant="text" onClick={() => navigate('/contact')} className="text-lg text-primary hover:text-accent">Start Project</Button>
+            <h3 className="text-fluid-h3 font-serif italic text-primary mb-6">Crie conosco.</h3>
+            <Button variant="text" onClick={() => navigate('/contact')} className="text-lg text-primary hover:text-accent">Iniciar Projeto</Button>
           </motion.div>
         </div>
       </div>

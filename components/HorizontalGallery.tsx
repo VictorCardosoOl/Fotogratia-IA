@@ -42,7 +42,7 @@ const HorizontalGallery: React.FC = () => {
         <div ref={triggerRef} className="overflow-hidden bg-background relative w-full">
             <div className="absolute top-8 left-6 md:top-10 md:left-20 z-20 pointer-events-none mix-blend-difference">
                 <span className="text-secondary text-micro tracking-[0.3em] uppercase block mb-2">Continuum</span>
-                <h3 className="text-3xl md:text-4xl font-serif italic text-white">Visual Flow</h3>
+                <h3 className="text-3xl md:text-4xl font-serif italic text-white">Fluxo Visual</h3>
             </div>
 
             <div 
@@ -72,7 +72,7 @@ const HorizontalGallery: React.FC = () => {
                 
                 <div className="w-[80vw] md:w-[30vw] h-[50vh] flex items-center justify-center flex-shrink-0">
                     <div className="text-center">
-                        <p className="text-secondary text-sm mb-4">Explore Full Archive</p>
+                        <p className="text-secondary text-sm mb-4">Explorar Arquivo Completo</p>
                         <div className="h-px w-20 bg-accent mx-auto" />
                     </div>
                 </div>

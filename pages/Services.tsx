@@ -49,10 +49,10 @@ const CONTENT_VARIANTS: Variants = {
 };
 
 const WORKFLOW_STEPS = [
-    { step: '01', title: 'Connect', desc: 'Inquiry form & consultation.' },
-    { step: '02', title: 'Plan', desc: 'Mood board & shot list creation.' },
-    { step: '03', title: 'Create', desc: 'The shoot day experience.' },
-    { step: '04', title: 'Deliver', desc: 'Retouching & final delivery.' }
+    { step: '01', title: 'Conexão', desc: 'Formulário inicial e consulta.' },
+    { step: '02', title: 'Planejamento', desc: 'Mood board e lista de fotos.' },
+    { step: '03', title: 'Criação', desc: 'A experiência do dia do ensaio.' },
+    { step: '04', title: 'Entrega', desc: 'Retoque e entrega final.' }
 ];
 
 const CATEGORIES = ['all', 'wedding', 'portrait', 'commercial'];
@@ -71,9 +71,9 @@ const Services: React.FC = () => {
     <Layout>
       <div className="pt-32 md:pt-40 pb-16 md:pb-20 bg-background relative">
         <div className="container relative z-10 text-center">
-          <SectionTitle subtitle="Investment" title="Services & Pricing" />
+          <SectionTitle subtitle="Investimento" title="Serviços & Preços" />
           <p className="text-center text-secondary max-w-2xl mx-auto -mt-6 md:-mt-10 mb-10 md:mb-16 text-base md:text-lg font-light">
-            Transparent pricing for timeless memories.
+            Preços transparentes para memórias atemporais.
           </p>
         </div>
       </div>
@@ -88,7 +88,7 @@ const Services: React.FC = () => {
                 filter === cat ? 'text-primary' : 'text-secondary hover:text-primary'
               }`}
             >
-              {cat}
+              {cat === 'all' ? 'Todos' : cat}
               {filter === cat && (
                 <motion.div
                   layoutId="activeFilterService"
@@ -178,7 +178,7 @@ const Services: React.FC = () => {
         </motion.div>
 
         <div className="mt-24 md:mt-40">
-            <SectionTitle subtitle="Workflow" title="The Process" />
+            <SectionTitle subtitle="Workflow" title="O Processo" />
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-8 md:gap-12 mt-12 md:mt-20">
                 {WORKFLOW_STEPS.map((item, idx) => (
                     <motion.div 
