@@ -1,63 +1,48 @@
 # Lumina - Portfólio de Fotografia Premium
 
-Lumina é um template de portfólio de alta performance desenvolvido para fotógrafos e artistas visuais. O projeto foca em estética minimalista, transições fluidas e uma experiência de usuário imersiva para converter visitantes em clientes.
+Lumina é um template de portfólio de alta performance desenvolvido para fotógrafos e artistas visuais. O projeto foca em estética minimalista, transições fluidas e uma experiência de usuário imersiva.
 
-Este projeto foi construído utilizando tecnologias modernas do ecossistema React, garantindo código limpo, manutenção facilitada e excelente SEO.
+## 🚀 Como Hospedar no GitHub Pages
 
-## 🚀 Tecnologias Utilizadas
+Este projeto já está configurado para deploy automático no GitHub Pages. Siga os passos abaixo:
 
-*   **React 19:** Biblioteca principal para construção da interface.
-*   **TypeScript:** Tipagem estática para maior robustez e segurança do código.
-*   **Tailwind CSS:** Framework de estilização utilitária para design responsivo e ágil.
-*   **Framer Motion:** Biblioteca para animações complexas de layout e micro-interações.
-*   **GSAP (GreenSock):** Utilizado para animações de scroll avançadas e efeitos de parallax.
-*   **React Hook Form:** Gerenciamento eficiente e validação de formulários.
-*   **React Router:** Navegação SPA (Single Page Application) com transições suaves.
-*   **Lenis:** Suavização de scroll (Smooth Scroll) para uma experiência de navegação premium.
+### 1. Configuração Inicial
+1. Abra o arquivo `package.json` e altere a linha `"homepage"`:
+   ```json
+   "homepage": "https://SEU_USUARIO.github.io/NOME_DO_SEU_REPOSITORIO",
+   ```
 
-## 🎨 Características de Design
+2. Abra o arquivo `vite.config.ts` e altere a propriedade `base`:
+   ```typescript
+   base: '/NOME_DO_SEU_REPOSITORIO/',
+   ```
 
-*   **Tipografia Fluida:** Textos que se adaptam suavemente a qualquer tamanho de tela usando `clamp()`.
-*   **Scroll Horizontal:** Galeria interativa com física de movimento.
-*   **Efeitos Parallax:** Profundidade visual em seções de destaque.
-*   **Sticky Footer:** Rodapé com efeito de revelação por camada (z-index stacking).
-*   **Micro-interações:** Botões magnéticos e feedbacks visuais refinados.
-*   **Design Responsivo:** Layout totalmente adaptável para Mobile, Tablet e Desktop.
+### 2. Instalação
+No terminal, instale as dependências:
+```bash
+npm install
+```
 
-## 🛠️ Instalação e Uso
+### 3. Deploy
+Para colocar o site no ar, execute:
+```bash
+npm run deploy
+```
+Este comando irá criar uma branch chamada `gh-pages` no seu repositório com os arquivos de produção.
 
-1.  **Clone o repositório:**
-    ```bash
-    git clone https://github.com/seu-usuario/lumina-portfolio.git
-    cd lumina-portfolio
-    ```
-
-2.  **Instale as dependências:**
-    ```bash
-    npm install
-    ```
-
-3.  **Inicie o servidor de desenvolvimento:**
-    ```bash
-    npm run dev
-    ```
-
-4.  **Build para produção:**
-    ```bash
-    npm run build
-    ```
-
-## 📂 Estrutura do Projeto
-
-*   `/components`: Componentes reutilizáveis (Layout, Botões, Galerias).
-*   `/pages`: Páginas principais (Home, Portfólio, Serviços, Contato).
-*   `/constants.ts`: Centralização de textos e dados estáticos para fácil edição.
-*   `/types.ts`: Definições de tipos TypeScript.
-
-## 📝 Personalização
-
-Todo o conteúdo de texto e links pode ser facilmente alterado no arquivo `constants.ts`. As configurações de tema (cores, fontes) estão centralizadas no `index.html` dentro da configuração do Tailwind.
+### 4. Ativar no GitHub
+1. Vá até as **Settings** do seu repositório no GitHub.
+2. Clique em **Pages** no menu lateral.
+3. Em "Build and deployment", certifique-se que a source é "Deploy from a branch".
+4. Selecione a branch `gh-pages` e salve.
 
 ---
 
-Desenvolvido com foco em qualidade de código e experiência do usuário.
+## 🛠️ Tecnologias
+
+*   **React 19 & TypeScript**
+*   **Vite** (Build Tool)
+*   **Tailwind CSS**
+*   **Framer Motion & GSAP**
+
+Desenvolvido com foco em performance e design.
