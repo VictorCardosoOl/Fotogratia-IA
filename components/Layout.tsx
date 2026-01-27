@@ -1,6 +1,6 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 import { NavLink as RouterNavLink, useNavigate, useLocation } from 'react-router-dom';
-import { Menu, X } from 'lucide-react';
+import { Menu, X, ArrowUpRight } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { NAV_LINKS, CONTACT_INFO, SOCIAL_LINKS } from '../constants';
 import Button from './Button';
@@ -14,11 +14,6 @@ const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const navigate = useNavigate();
   const location = useLocation();
   
-  // Footer Reveal Logic
-  // We use a fixed footer at z-0, and the main content at z-10 with a margin-bottom equal to footer height.
-  // Since footer height is variable, we'd typically measure it. For simplicity in this stack, we'll use a min-height approach
-  // and ensure the main content has a background to cover it.
-
   useEffect(() => {
     const handleScroll = () => {
       const scrolled = window.scrollY > 20;
@@ -34,11 +29,12 @@ const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   }, [location]);
 
   return (
-    <div className="flex flex-col min-h-screen font-sans">
+    // Outer wrapper set to surface color to prevent black gaps if overscroll happens
+    <div className="flex flex-col min-h-screen font-sans bg-surface">
       <header 
         className={`fixed top-0 left-0 right-0 z-header transition-all duration-500 ease-[0.22,1,0.36,1] ${
           isScrolled 
-            ? 'bg-background/80 backdrop-blur-md py-4 border-b border-muted/50' 
+            ? 'bg-background/90 backdrop-blur-md py-4 border-b border-muted/50' 
             : 'bg-transparent py-6 md:py-8'
         }`}
       >
@@ -136,64 +132,89 @@ const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
 
       {/* 
         Main Content 
-        z-10 and bg-background are crucial for the footer reveal effect.
-        mb-[60vh] reserves space for the fixed footer to be revealed.
+        - Mobile: Normal relative positioning, no margin bottom.
+        - Desktop (md): Relative z-10 with margin-bottom to reveal footer.
+        - Shadow: Very subtle to avoid black artifacts.
       */}
-      <main className="relative z-10 w-full bg-background shadow-2xl mb-[50vh] md:mb-[60vh] rounded-b-[3rem] overflow-hidden">
+      <main className="relative z-10 w-full bg-background mb-0 md:mb-[45vh] rounded-b-none md:rounded-b-[3rem] shadow-none md:shadow-[0_20px_60px_-15px_rgba(0,0,0,0.05)] overflow-hidden">
         {children}
       </main>
 
       {/* 
-        Sticky Reveal Footer 
-        Fixed at bottom, z-0. The main content scrolls UP to reveal this.
+        Footer
+        - Mobile: Relative (flows naturally).
+        - Desktop (md): Fixed at bottom z-0.
       */}
       <footer 
-        className="fixed bottom-0 left-0 right-0 z-0 bg-surface text-secondary flex items-center h-[50vh] md:h-[60vh]"
+        className="relative md:fixed bottom-0 left-0 right-0 z-0 bg-surface text-secondary h-auto md:h-[45vh] flex flex-col justify-between overflow-hidden"
       >
-        <div className="w-full h-full flex flex-col justify-between py-section-sm md:py-section">
-          <div className="container grid grid-cols-1 md:grid-cols-12 gap-12 relative z-10 h-full flex-grow">
-            <div className="md:col-span-6 lg:col-span-5 flex flex-col justify-between">
-              <div>
-                  <h3 className="text-mega font-serif italic font-light mb-8 text-primary/5 select-none tracking-tighter">LUMINA</h3>
-                  <p className="text-secondary text-small leading-relaxed max-w-sm font-light tracking-wide border-l border-accent/30 pl-6">
-                  Um estúdio de narrativa visual. Baseado na luz, enraizado na emoção. Documentamos o não roteirizado e o profundo.
-                  </p>
-              </div>
+        {/* Giant Watermark Background - Hidden on mobile to save space/performance */}
+        <div className="hidden md:block absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full text-center pointer-events-none select-none overflow-hidden opacity-50">
+           <h1 className="text-[25vw] font-serif italic text-primary/5 leading-none tracking-tighter whitespace-nowrap">
+              LUMINA
+           </h1>
+        </div>
+
+        <div className="w-full h-full flex flex-col py-section-sm md:py-12 relative z-10">
+          <div className="container grid grid-cols-1 md:grid-cols-12 gap-12 flex-grow">
+            
+            {/* Column 1: Brand & Desc */}
+            <div className="md:col-span-5 flex flex-col justify-start pt-4">
+              <span className="text-2xl font-serif italic font-medium text-primary mb-6">LUMINA</span>
+              <p className="text-secondary text-body font-light leading-relaxed max-w-sm">
+                Narrativas visuais que capturam a essência do momento. Fotografia com alma, luz e propósito.
+              </p>
             </div>
             
-            <div className="md:col-span-3 lg:col-span-3 md:col-start-8 lg:col-start-8 flex flex-col justify-center">
-              <h4 className="text-micro font-bold uppercase mb-8 text-primary/40 tracking-widest">Estúdio</h4>
-              <div className="space-y-4 text-small font-light tracking-wide flex flex-col items-start">
-                <p className="text-primary">{CONTACT_INFO.location}</p>
-                <a href={`mailto:${CONTACT_INFO.email}`} className="block text-secondary hover:text-primary transition-colors border-b border-transparent hover:border-primary pb-0.5">{CONTACT_INFO.email}</a>
-                <a href={`tel:${CONTACT_INFO.phone}`} className="block text-secondary hover:text-primary transition-colors">{CONTACT_INFO.phone}</a>
-              </div>
+            {/* Column 2: Quick Links */}
+            <div className="md:col-span-3 md:col-start-7 pt-4">
+               <h4 className="text-micro font-bold uppercase mb-6 text-primary tracking-widest">Menu</h4>
+               <ul className="space-y-3">
+                  {NAV_LINKS.map(link => (
+                      <li key={link.path}>
+                          <RouterNavLink to={link.path} className="text-small text-secondary hover:text-primary transition-colors flex items-center group w-fit">
+                             {link.label}
+                             <ArrowUpRight className="w-3 h-3 ml-1 opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-300" />
+                          </RouterNavLink>
+                      </li>
+                  ))}
+               </ul>
             </div>
 
-            <div className="md:col-span-3 lg:col-span-2 flex flex-col justify-center">
-              <h4 className="text-micro font-bold uppercase mb-8 text-primary/40 tracking-widest">Social</h4>
-              <div className="flex flex-col space-y-4 items-start">
+            {/* Column 3: Contact & Social */}
+            <div className="md:col-span-3 pt-4">
+              <h4 className="text-micro font-bold uppercase mb-6 text-primary tracking-widest">Contato</h4>
+              <div className="space-y-4 mb-8">
+                 <p className="text-small text-secondary">{CONTACT_INFO.location}</p>
+                 <a href={`mailto:${CONTACT_INFO.email}`} className="block text-small text-primary font-medium hover:text-accent transition-colors">{CONTACT_INFO.email}</a>
+              </div>
+              
+              <div className="flex gap-4">
                 {SOCIAL_LINKS.map((social) => (
                   <a 
                     key={social.id}
                     href={social.url}
                     target="_blank"
                     rel="noopener noreferrer" 
-                    className="text-secondary opacity-70 hover:opacity-100 text-small block hover:translate-x-2 transition-transform duration-300"
+                    className="w-10 h-10 border border-secondary/20 rounded-full flex items-center justify-center text-secondary hover:text-primary hover:border-primary transition-all duration-300 hover:scale-105 bg-transparent"
                   >
-                    {social.label}
+                     <span className="sr-only">{social.label}</span>
+                     <span className="text-[10px] font-bold uppercase">{social.id}</span>
                   </a>
                 ))}
               </div>
             </div>
           </div>
           
-          <div className="container mt-12 pt-8 border-t border-muted/50 flex flex-col md:flex-row justify-between items-center relative z-10 gap-4 opacity-50 hover:opacity-100 transition-opacity duration-500">
-            <p className="text-micro uppercase text-secondary tracking-widest">&copy; {new Date().getFullYear()} Lumina. Est. 2024</p>
-            <div className="flex space-x-8 text-micro uppercase text-secondary tracking-widest">
-              <button className="hover:text-primary transition-colors">Privacidade</button>
-              <button className="hover:text-primary transition-colors">Termos</button>
-            </div>
+          {/* Footer Bottom */}
+          <div className="container mt-12 md:mt-auto">
+             <div className="border-t border-primary/10 pt-8 flex flex-col md:flex-row justify-between items-center gap-4">
+                <p className="text-micro uppercase text-secondary/60 tracking-widest">&copy; {new Date().getFullYear()} Lumina Studio.</p>
+                <div className="flex gap-6">
+                    <button className="text-micro uppercase text-secondary/60 hover:text-primary tracking-widest transition-colors">Privacidade</button>
+                    <button className="text-micro uppercase text-secondary/60 hover:text-primary tracking-widest transition-colors">Termos</button>
+                </div>
+             </div>
           </div>
         </div>
       </footer>

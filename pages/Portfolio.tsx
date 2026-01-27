@@ -4,6 +4,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import Layout from '../components/Layout';
 import Button from '../components/Button';
 import SplitText from '../components/SplitText';
+import LiquidImage from '../components/LiquidImage';
 import { PHOTOS } from '../constants';
 
 const CATEGORIES = ['wedding', 'portrait', 'commercial', 'editorial'];
@@ -114,22 +115,22 @@ const Portfolio: React.FC = () => {
                   exit={{ opacity: 0, scale: 0.95, transition: { duration: 0.3 } }}
                   transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
                   key={photo.id} 
-                  className={`break-inside-avoid group relative cursor-pointer overflow-hidden ${getGridClass(index)}`}
+                  className={`break-inside-avoid group relative cursor-pointer ${getGridClass(index)}`}
                 >
                   {/* Container for Image & Overlay */}
-                  <div className="w-full h-full relative overflow-hidden bg-muted">
-                      <img 
-                        src={photo.url} 
-                        alt={photo.title} 
-                        className="w-full h-full object-cover transition-all duration-[1.2s] ease-[0.22,1,0.36,1] grayscale-[20%] group-hover:grayscale-0 group-hover:scale-105"
-                        loading="lazy"
+                  <div className="w-full h-full relative bg-muted">
+                      <LiquidImage
+                        src={photo.url}
+                        alt={photo.title}
+                        className="grayscale-[20%] group-hover:grayscale-0"
+                        containerClassName="w-full h-full"
                       />
                       
                       {/* Premium Overlay: Gradient only at bottom, fading in properly */}
-                      <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700 ease-in-out" />
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700 ease-in-out pointer-events-none z-30" />
                       
                       {/* Content positioned absolutely */}
-                      <div className="absolute inset-0 flex flex-col justify-end p-8 opacity-0 group-hover:opacity-100 transition-opacity duration-700 delay-100">
+                      <div className="absolute inset-0 flex flex-col justify-end p-8 opacity-0 group-hover:opacity-100 transition-opacity duration-700 delay-100 z-40 pointer-events-none">
                            <div className="transform translate-y-4 group-hover:translate-y-0 transition-transform duration-700 ease-[0.22,1,0.36,1]">
                                 <span className="text-[10px] uppercase tracking-[0.25em] text-white/80 block mb-2">{photo.category}</span>
                                 <h3 className="text-h3 font-serif italic text-white font-light">{photo.title}</h3>

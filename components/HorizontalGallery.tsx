@@ -3,6 +3,7 @@ import gsap from 'gsap';
 import { useGSAP } from '@gsap/react';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { PHOTOS } from '../constants';
+import LiquidImage from './LiquidImage';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -52,20 +53,23 @@ const HorizontalGallery: React.FC = () => {
                 {galleryPhotos.map((photo, index) => (
                     <div 
                         key={photo.id} 
-                        className={`relative flex-shrink-0 group overflow-hidden shadow-xl ${
+                        className={`relative flex-shrink-0 group shadow-xl ${
                             index % 2 === 0 
                                 ? 'w-[70vw] md:w-[40vh] aspect-[3/4] md:mt-20' 
                                 : 'w-[80vw] md:w-[50vh] aspect-[4/5] md:mb-20'
                         }`}
                     >
-                        <img 
-                            src={photo.url} 
-                            alt={photo.title}
-                            className="w-full h-full object-cover grayscale transition-all duration-700 group-hover:grayscale-0 group-hover:scale-105" 
-                            loading="lazy"
-                        />
-                        <div className="absolute bottom-0 left-0 p-4 bg-gradient-to-t from-primary/80 to-transparent w-full opacity-0 group-hover:opacity-100 transition-opacity duration-500">
-                             <p className="text-white font-serif italic text-lg">{photo.title}</p>
+                        <div className="w-full h-full relative">
+                            <LiquidImage 
+                                src={photo.url}
+                                alt={photo.title}
+                                className="grayscale transition-all duration-700 group-hover:grayscale-0"
+                                containerClassName="w-full h-full"
+                            />
+                            
+                            <div className="absolute bottom-0 left-0 p-4 bg-gradient-to-t from-primary/80 to-transparent w-full opacity-0 group-hover:opacity-100 transition-opacity duration-500 z-30 pointer-events-none">
+                                <p className="text-white font-serif italic text-lg">{photo.title}</p>
+                            </div>
                         </div>
                     </div>
                 ))}

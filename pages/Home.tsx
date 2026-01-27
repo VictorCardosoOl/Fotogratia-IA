@@ -27,6 +27,7 @@ const Home: React.FC = () => {
   const heroRef = useRef<HTMLDivElement>(null);
   const heroBgRef = useRef<HTMLDivElement>(null);
   const heroTextRef = useRef<HTMLDivElement>(null);
+  const liquidOrbRef = useRef<HTMLDivElement>(null);
 
   useGSAP(() => {
     if (!heroBgRef.current || !heroTextRef.current) return;
@@ -59,6 +60,20 @@ const Home: React.FC = () => {
       }
     });
 
+    // Liquid Orb Animation
+    if (liquidOrbRef.current) {
+        gsap.to(liquidOrbRef.current, {
+            y: -50,
+            x: 50,
+            scale: 1.1,
+            rotation: 10,
+            duration: 10,
+            repeat: -1,
+            yoyo: true,
+            ease: "sine.inOut"
+        });
+    }
+
   }, { scope: containerRef });
 
   return (
@@ -78,6 +93,12 @@ const Home: React.FC = () => {
             </div>
             <div className="absolute inset-0 bg-gradient-to-b from-dark/60 via-transparent to-dark/90" /> 
             <div className="absolute inset-0 bg-vignette mix-blend-multiply" />
+            
+            {/* Liquid Orb Background Element */}
+            <div 
+                ref={liquidOrbRef}
+                className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[60vh] h-[60vh] bg-accent/20 rounded-full blur-[100px] mix-blend-overlay pointer-events-none"
+            />
           </div>
 
           <div 
