@@ -28,14 +28,15 @@ const LiquidImage: React.FC<LiquidImageProps> = ({
     const tl = gsap.timeline({ paused: true });
 
     // Animation: Increase distortion scale and move turbulence
+    // Refinado: Scale reduzido de 30 para 20 para não destruir a imagem
     tl.to(displacementMapRef.current, {
-      attr: { scale: 30 }, // Distortion intensity
-      duration: 0.8,
+      attr: { scale: 20 }, 
+      duration: 1.2, // Mais lento e fluido
       ease: "power2.out"
     })
     .to(turbulenceRef.current, {
-      attr: { baseFrequency: "0.02 0.03" }, // Move the ripples
-      duration: 0.8,
+      attr: { baseFrequency: "0.02 0.03" }, 
+      duration: 1.2,
       ease: "power2.out"
     }, 0);
 
@@ -43,14 +44,14 @@ const LiquidImage: React.FC<LiquidImageProps> = ({
       tl.play();
       // Glass Glare Effect
       if (glareRef.current) {
-        gsap.to(glareRef.current, { opacity: 1, duration: 0.5 });
+        gsap.to(glareRef.current, { opacity: 0.6, duration: 0.8, ease: "power2.out" });
       }
     };
 
     const onMouseLeave = () => {
       tl.reverse();
       if (glareRef.current) {
-        gsap.to(glareRef.current, { opacity: 0, duration: 0.5 });
+        gsap.to(glareRef.current, { opacity: 0, duration: 0.8, ease: "power2.out" });
       }
     };
     
@@ -62,10 +63,10 @@ const LiquidImage: React.FC<LiquidImageProps> = ({
         const y = (e.clientY - top) / height;
 
         gsap.to(glareRef.current, {
-            x: (x - 0.5) * 50,
-            y: (y - 0.5) * 50,
-            duration: 1,
-            ease: "power2.out"
+            x: (x - 0.5) * 60,
+            y: (y - 0.5) * 60,
+            duration: 1.5, // Mais inércia
+            ease: "power3.out"
         });
     };
 
@@ -87,7 +88,7 @@ const LiquidImage: React.FC<LiquidImageProps> = ({
       <img 
         src={src} 
         alt={alt} 
-        className={`block w-full h-full object-cover relative z-10 transition-transform duration-700 ease-out hover:scale-105 ${className}`}
+        className={`block w-full h-full object-cover relative z-10 transition-transform duration-1000 ease-out hover:scale-110 ${className}`}
         style={{ filter: `url(#${filterId})` }}
         loading="lazy"
       />
@@ -97,7 +98,7 @@ const LiquidImage: React.FC<LiquidImageProps> = ({
         ref={glareRef}
         className="absolute inset-0 z-20 pointer-events-none opacity-0 mix-blend-overlay"
         style={{
-            background: 'radial-gradient(circle at center, rgba(255,255,255,0.6) 0%, rgba(255,255,255,0) 70%)',
+            background: 'radial-gradient(circle at center, rgba(255,255,255,0.7) 0%, rgba(255,255,255,0) 60%)',
             transform: 'scale(1.5)'
         }}
       />

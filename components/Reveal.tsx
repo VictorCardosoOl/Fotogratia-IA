@@ -25,25 +25,26 @@ export const Reveal: React.FC<RevealProps> = ({ children, width = "fit-content",
         <div ref={ref} className={`relative overflow-hidden ${className}`} style={{ width }}>
             <motion.div
                 variants={{
-                    hidden: { opacity: 0, y: 40, filter: "blur(4px)" },
-                    visible: { opacity: 1, y: 0, filter: "blur(0px)" },
+                    hidden: { opacity: 0, y: 20 }, // Reduzido y de 40 para 20 para ser mais sutil
+                    visible: { opacity: 1, y: 0 },
                 }}
                 initial="hidden"
                 animate={mainControls}
-                transition={{ duration: 1.2, delay: delay, ease: [0.22, 1, 0.36, 1] }}
+                transition={{ duration: 0.8, delay: delay + 0.3, ease: "easeOut" }} // Texto aparece logo após a cortina começar a sair
             >
                 {children}
             </motion.div>
-            {/* The curtain effect - simulates a shutter or developing film */}
+            
+            {/* The curtain effect */}
             <motion.div
                 variants={{
-                    hidden: { top: 0, bottom: 0 },
-                    visible: { top: "100%", bottom: 0 },
+                    hidden: { left: 0 },
+                    visible: { left: "100%" },
                 }}
                 initial="hidden"
                 animate={slideControls}
-                transition={{ duration: 0.8, delay: delay * 0.5, ease: [0.83, 0, 0.17, 1] }}
-                className="absolute left-0 right-0 bg-accent z-20"
+                transition={{ duration: 0.8, delay: delay, ease: [0.76, 0, 0.24, 1] }} // Quintic ease para saída rápida
+                className="absolute top-0 bottom-0 left-0 right-0 bg-accent z-20"
             />
         </div>
     );

@@ -11,15 +11,17 @@ const CATEGORIES = ['wedding', 'portrait', 'commercial', 'editorial'];
 
 const Portfolio: React.FC = () => {
   const navigate = useNavigate();
-  const [activeCategories, setActiveCategories] = useState<string[]>([]);
+  const activeCategoriesState = useState<string[]>([]);
+  const activeCategories = activeCategoriesState[0];
+  const setActiveCategories = activeCategoriesState[1];
 
   const toggleCategory = useCallback((cat: string) => {
     setActiveCategories(prev => 
       prev.includes(cat) ? prev.filter(c => c !== cat) : [...prev, cat]
     );
-  }, []);
+  }, [setActiveCategories]);
 
-  const clearFilters = useCallback(() => setActiveCategories([]), []);
+  const clearFilters = useCallback(() => setActiveCategories([]), [setActiveCategories]);
 
   const filteredPhotos = useMemo(() => {
     if (activeCategories.length === 0) return PHOTOS;
@@ -41,20 +43,21 @@ const Portfolio: React.FC = () => {
               <motion.span 
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
+                transition={{ duration: 1, delay: 0.8 }}
                 className="text-micro uppercase tracking-[0.4em] text-secondary block mb-4"
               >
                   Trabalhos Curados
               </motion.span>
               <div className="overflow-hidden">
-                <SplitText tag="h1" className="text-display font-serif italic text-primary tracking-tighter">
+                <SplitText tag="h1" className="text-display font-serif italic text-primary tracking-tighter" delay={0.6}>
                     Arquivo
                 </SplitText>
               </div>
           </div>
           <motion.p 
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.4 }}
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 1, duration: 0.8 }}
             className="text-secondary max-w-xs text-body font-light mt-8 md:mt-0 text-right"
           >
             Uma coleção de memórias visuais, processadas com cuidado e intenção cinematográfica.
@@ -110,15 +113,23 @@ const Portfolio: React.FC = () => {
               {filteredPhotos.map((photo, index) => (
                 <motion.div 
                   layout
-                  initial={{ opacity: 0, y: 50 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, scale: 0.95, transition: { duration: 0.3 } }}
-                  transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
+                  initial={{ opacity: 0, y: 100, scale: 0.95 }}
+                  animate={{ 
+                    opacity: 1, 
+                    y: 0, 
+                    scale: 1,
+                    transition: {
+                        duration: 0.8,
+                        ease: [0.22, 1, 0.36, 1], // Heavy ease
+                        delay: index * 0.1 // Stagger effect based on index
+                    }
+                  }}
+                  exit={{ opacity: 0, scale: 0.9, transition: { duration: 0.4 } }}
                   key={photo.id} 
                   className={`break-inside-avoid group relative cursor-pointer ${getGridClass(index)}`}
                 >
                   {/* Container for Image & Overlay */}
-                  <div className="w-full h-full relative bg-muted">
+                  <div className="w-full h-full relative bg-muted overflow-hidden">
                       <LiquidImage
                         src={photo.url}
                         alt={photo.title}
@@ -131,7 +142,7 @@ const Portfolio: React.FC = () => {
                       
                       {/* Content positioned absolutely */}
                       <div className="absolute inset-0 flex flex-col justify-end p-8 opacity-0 group-hover:opacity-100 transition-opacity duration-700 delay-100 z-40 pointer-events-none">
-                           <div className="transform translate-y-4 group-hover:translate-y-0 transition-transform duration-700 ease-[0.22,1,0.36,1]">
+                           <div className="transform translate-y-8 group-hover:translate-y-0 transition-transform duration-700 ease-[0.22,1,0.36,1]">
                                 <span className="text-[10px] uppercase tracking-[0.25em] text-white/80 block mb-2">{photo.category}</span>
                                 <h3 className="text-h3 font-serif italic text-white font-light">{photo.title}</h3>
                            </div>
