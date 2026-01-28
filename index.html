@@ -42,12 +42,15 @@
               'h2': ['clamp(2rem, 4.5vw, 3.5rem)', { lineHeight: '1.1', letterSpacing: '-0.02em' }], 
               'h3': ['clamp(1.5rem, 3vw, 2.5rem)', { lineHeight: '1.2', letterSpacing: '-0.01em' }], 
               'body-lg': ['clamp(1.125rem, 1.2vw, 1.5rem)', { lineHeight: '1.5', letterSpacing: '-0.01em' }], 
-              'body': ['1rem', { lineHeight: '1.7', letterSpacing: '0.01em' }],
+              'body': ['clamp(1rem, 1vw, 1.125rem)', { lineHeight: '1.7', letterSpacing: '0.01em' }], // Made fluid
               'small': ['0.875rem', { lineHeight: '1.6', letterSpacing: '0.02em' }],
               'micro': ['0.75rem', { lineHeight: '1.2', letterSpacing: '0.2em', fontWeight: '600' }],
               'mega': ['clamp(6rem, 25vw, 30rem)', { lineHeight: '0.8', letterSpacing: '-0.06em' }], 
             },
             spacing: {
+              'fluid-sm': 'clamp(1rem, 2vw, 1.5rem)',
+              'fluid-md': 'clamp(1.5rem, 3vw, 3rem)',
+              'fluid-lg': 'clamp(2.5rem, 5vw, 5rem)',
               'section-xs': 'clamp(2rem, 4vw, 4rem)',
               'section-sm': 'clamp(4rem, 8vw, 8rem)',
               'section': 'clamp(6rem, 12vw, 12rem)',

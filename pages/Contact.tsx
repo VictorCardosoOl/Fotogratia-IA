@@ -84,10 +84,10 @@ const Contact: React.FC = () => {
       </div>
 
       <div className="container pb-section relative z-20">
-        <div className="flex flex-col lg:flex-row gap-16 lg:gap-32 max-w-7xl mx-auto">
+        <div className="flex flex-col lg:flex-row gap-fluid-lg max-w-7xl mx-auto">
           
           {/* Contact Info Side */}
-          <div className="lg:w-1/3 space-y-12 order-2 lg:order-1 lg:pt-8">
+          <div className="lg:w-1/3 space-y-fluid-md order-2 lg:order-1 lg:pt-8">
             <div className="hidden lg:block h-px w-20 bg-primary mb-12" />
             
             <div>
@@ -144,8 +144,8 @@ const Contact: React.FC = () => {
                 )}
              </AnimatePresence>
 
-            <form onSubmit={handleSubmit(onSubmit)} className="space-y-16">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-12 md:gap-16">
+            <form onSubmit={handleSubmit(onSubmit)} className="space-y-section-xs">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-fluid-md">
                 <div className="relative group">
                   <input 
                     id="name"
@@ -182,7 +182,7 @@ const Contact: React.FC = () => {
                 </div>
               </div>
 
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-12 md:gap-16">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-fluid-md">
                  <div className="relative group">
                   <input 
                     id="phone"

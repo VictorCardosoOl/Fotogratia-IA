@@ -72,14 +72,14 @@ const Services: React.FC = () => {
       <div className="pt-32 md:pt-40 pb-section-sm bg-background relative">
         <div className="container relative z-10 text-center">
           <SectionTitle subtitle="Investimento" title="Serviços & Preços" />
-          <p className="text-center text-secondary max-w-2xl mx-auto -mt-6 md:-mt-10 mb-10 md:mb-16 text-body font-light">
+          <p className="text-center text-secondary max-w-2xl mx-auto -mt-6 md:-mt-10 mb-section-xs text-body font-light">
             Preços transparentes para memórias atemporais.
           </p>
         </div>
       </div>
 
       <div className="container pb-section bg-background">
-        <div className="flex flex-wrap justify-center gap-2 md:gap-4 mb-16 md:mb-20">
+        <div className="flex flex-wrap justify-center gap-fluid-sm mb-fluid-lg">
           {CATEGORIES.map((cat) => (
             <button
               key={cat}
@@ -102,7 +102,7 @@ const Services: React.FC = () => {
 
         <motion.div 
             layout
-            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 items-start max-w-6xl mx-auto"
+            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-fluid-md items-start max-w-6xl mx-auto"
         >
           <AnimatePresence mode="popLayout">
             {filteredServices.map((service, index) => {
@@ -121,7 +121,7 @@ const Services: React.FC = () => {
                       layout: { duration: 0.8, ease: HEAVY_EASE },
                       delay: index * 0.1
                   }}
-                  className={`relative flex flex-col p-8 md:p-10 transition-colors duration-300 group h-full rounded-sm border ${
+                  className={`relative flex flex-col p-fluid-md transition-colors duration-300 group h-full rounded-sm border ${
                       isFeatured 
                       ? 'bg-primary text-white border-primary z-10' 
                       : 'bg-surface text-primary border-primary/10'
@@ -149,7 +149,7 @@ const Services: React.FC = () => {
                         {service.description}
                     </motion.p>
 
-                    <ul className="mb-12 space-y-5 flex-grow">
+                    <ul className="mb-12 space-y-fluid-sm flex-grow">
                         {service.features.map((feature, idx) => (
                         <motion.li 
                           key={idx} 
@@ -179,7 +179,7 @@ const Services: React.FC = () => {
 
         <div className="mt-section-sm md:mt-section">
             <SectionTitle subtitle="Workflow" title="O Processo" />
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-8 md:gap-12 mt-12 md:mt-20">
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-fluid-md mt-section-xs">
                 {WORKFLOW_STEPS.map((item, idx) => (
                     <motion.div 
                         key={idx} 
