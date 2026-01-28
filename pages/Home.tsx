@@ -4,6 +4,7 @@ import { Aperture, Film, Frame, ArrowDown } from 'lucide-react';
 import gsap from 'gsap';
 import { useGSAP } from '@gsap/react';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { motion } from 'framer-motion';
 
 import Layout from '../components/Layout';
 import Button from '../components/Button';
@@ -32,11 +33,11 @@ const Home: React.FC = () => {
   useGSAP(() => {
     if (!heroBgRef.current || !heroTextRef.current) return;
 
-    gsap.set(heroBgRef.current, { scale: 1.25 });
+    gsap.set(heroBgRef.current, { scale: 1.35 }); // Increased initial scale for more room to move
     
-    // Parallax Effect on Hero Background
+    // Enhanced Parallax Effect on Hero Background
     gsap.to(heroBgRef.current, {
-      yPercent: 30, 
+      yPercent: 40, // Significantly increased from 30 to 40 for more depth
       scale: 1.1,
       ease: "none",
       scrollTrigger: {
@@ -49,7 +50,7 @@ const Home: React.FC = () => {
 
     // Fade out text on scroll
     gsap.to(heroTextRef.current, {
-      yPercent: 50,
+      yPercent: 60,
       opacity: 0,
       ease: "power1.in",
       scrollTrigger: {
@@ -159,13 +160,16 @@ const Home: React.FC = () => {
               <div className="lg:col-span-4">
                   <SectionTitle subtitle="Manifesto" title="A Arte da Observação" alignment="left" />
                   <div className="mt-12 hidden lg:block">
-                     <ParallaxImage src="https://picsum.photos/600/800?grayscale" alt="Abstract Texture" />
+                     {/* Increased speed for deeper parallax on this vertical image */}
+                     <ParallaxImage speed={1.2} src="https://picsum.photos/600/800?grayscale" alt="Abstract Texture" />
                   </div>
               </div>
               <div className="lg:col-span-8 lg:pl-12 pt-8">
-                  <div className="text-h2 font-serif text-primary/80 font-light italic leading-tight">
-                      "Em um mundo de ruído, buscamos o silêncio. O olhar sutil, a textura do tecido, a forma como a luz cai sobre um ombro."
-                  </div>
+                  <Reveal variant="fade" delay={0.2}>
+                    <div className="text-h2 font-serif text-primary/80 font-light italic leading-tight">
+                        "Em um mundo de ruído, buscamos o silêncio. O olhar sutil, a textura do tecido, a forma como a luz cai sobre um ombro."
+                    </div>
+                  </Reveal>
                   
                   <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mt-16 md:mt-20">
                       {[
@@ -173,14 +177,15 @@ const Home: React.FC = () => {
                       { icon: Aperture, title: "Luz Natural", desc: "Esculpindo com a iluminação disponível." },
                       { icon: Frame, title: "Composição", desc: "Guiando o olhar para o que importa." }
                       ].map((feature, idx) => (
-                      <div 
-                          key={idx} 
-                          className="border-l border-muted pl-6 group hover:border-accent transition-colors duration-500"
-                      >
-                          <feature.icon className="w-5 h-5 text-secondary mb-4 group-hover:text-primary transition-colors" />
-                          <h3 className="text-primary font-semibold tracking-widest text-micro uppercase mb-2">{feature.title}</h3>
-                          <p className="text-secondary text-body font-light">{feature.desc}</p>
-                      </div>
+                      <Reveal key={idx} variant="fade" delay={0.4 + (idx * 0.15)}>
+                          <div 
+                              className="border-l border-muted pl-6 group hover:border-accent transition-colors duration-500 h-full"
+                          >
+                              <feature.icon className="w-5 h-5 text-secondary mb-4 group-hover:text-primary transition-colors" />
+                              <h3 className="text-primary font-semibold tracking-widest text-micro uppercase mb-2">{feature.title}</h3>
+                              <p className="text-secondary text-body font-light">{feature.desc}</p>
+                          </div>
+                      </Reveal>
                       ))}
                   </div>
               </div>
@@ -198,8 +203,12 @@ const Home: React.FC = () => {
                   <SectionTitle subtitle="Ofertas" title="Comissões" />
                   
                   <div className="mt-16 space-y-12">
-                      {SERVICES.map((s) => (
-                          <div
+                      {SERVICES.map((s, index) => (
+                          <motion.div
+                              initial={{ opacity: 0, y: 30 }}
+                              whileInView={{ opacity: 1, y: 0 }}
+                              viewport={{ once: true, margin: "-10%" }}
+                              transition={{ duration: 0.8, delay: index * 0.15, ease: [0.22, 1, 0.36, 1] }}
                               key={s.id}
                               className="group border-b border-muted pb-8 md:pb-12 cursor-pointer hover:border-primary/30 transition-colors duration-500"
                               onClick={() => navigate('/services')}
@@ -209,7 +218,7 @@ const Home: React.FC = () => {
                                   <span className="text-small font-mono text-secondary mt-2 md:mt-0">{s.price}</span>
                               </div>
                               <p className="text-secondary text-body font-light max-w-lg transition-opacity duration-300 opacity-60 group-hover:opacity-100">{s.description}</p>
-                          </div>
+                          </motion.div>
                       ))}
                   </div>
               </div>
@@ -219,11 +228,13 @@ const Home: React.FC = () => {
         {/* Final CTA */}
         <section className="py-section-lg bg-background z-20 relative rounded-b-[3rem]">
           <div className="container text-center max-w-2xl">
-            <Reveal width="100%">
+            <Reveal width="100%" variant="curtain">
               <p className="text-secondary text-micro tracking-widest uppercase mb-6">Agenda 2024 / 2025</p>
-              <h2 className="text-h1 font-serif italic mb-12 text-primary">
-                  Conte sua história.
-              </h2>
+            </Reveal>
+            <Reveal width="100%" variant="fade" delay={0.4}>
+                <h2 className="text-h1 font-serif italic mb-12 text-primary">
+                    Conte sua história.
+                </h2>
             </Reveal>
             <div className="flex justify-center">
               <Magnetic>

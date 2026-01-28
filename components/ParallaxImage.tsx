@@ -10,7 +10,7 @@ interface ParallaxImageProps {
   alt: string;
   className?: string;
   containerClassName?: string;
-  speed?: number; // 1 = normal, >1 faster, <1 slower (parallax)
+  speed?: number; // 1 = normal intensity
 }
 
 const ParallaxImage: React.FC<ParallaxImageProps> = ({ 
@@ -18,7 +18,7 @@ const ParallaxImage: React.FC<ParallaxImageProps> = ({
   alt, 
   className = "",
   containerClassName = "aspect-[3/4]",
-  speed = 0.5 
+  speed = 1 
 }) => {
   const containerRef = useRef<HTMLDivElement>(null);
   const imgRef = useRef<HTMLImageElement>(null);
@@ -26,19 +26,21 @@ const ParallaxImage: React.FC<ParallaxImageProps> = ({
   useGSAP(() => {
     if (!containerRef.current || !imgRef.current) return;
 
-    // A imagem precisa ser maior que o container para o parallax funcionar sem cortar
-    // Calculamos o movimento baseado na altura
+    // Calculate movement intensity
+    // Increased base intensity for a more pronounced effect
+    const movementStrength = 20 * speed; 
+
     gsap.fromTo(imgRef.current, 
       {
-        yPercent: -15
+        yPercent: -movementStrength
       },
       {
-        yPercent: 15,
+        yPercent: movementStrength,
         ease: "none",
         scrollTrigger: {
           trigger: containerRef.current,
-          start: "top bottom", // quando o topo do container entra na parte de baixo da tela
-          end: "bottom top",   // quando o fundo do container sai da parte de cima da tela
+          start: "top bottom", 
+          end: "bottom top",   
           scrub: true
         }
       }
@@ -47,11 +49,15 @@ const ParallaxImage: React.FC<ParallaxImageProps> = ({
 
   return (
     <div ref={containerRef} className={`relative overflow-hidden w-full bg-muted ${containerClassName}`}>
+      {/* 
+        Image Height increased to 140% to accommodate stronger parallax movement 
+        without revealing background.
+      */}
       <img 
         ref={imgRef}
         src={src} 
         alt={alt} 
-        className={`absolute inset-0 w-full h-[130%] -top-[15%] object-cover grayscale-[10%] hover:grayscale-0 transition-all duration-700 ${className}`}
+        className={`absolute inset-0 w-full h-[140%] -top-[20%] object-cover grayscale-[10%] hover:grayscale-0 transition-all duration-700 will-change-transform ${className}`}
         loading="lazy"
       />
     </div>
